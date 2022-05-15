@@ -52,7 +52,7 @@ exports.findOne = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `SELECT * FROM adr_booking WHERE id = ${id}`
+  let sql = `SELECT * FROM adr_booking WHERE id_ab = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
  await mysql.get(sql, (err, data) => {
     if (err)
@@ -72,7 +72,7 @@ exports.update = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [pincode, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE adr_booking SET latilongti = ?, adr1  = ?, adr2 = ?, city = ?, pincode = ? WHERE id = ?`
+  let sql = `UPDATE adr_booking SET latilongti = ?, adr1  = ?, adr2 = ?, city = ?, pincode = ? WHERE id_ab = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [latilongti, adr1, adr2, city, pincode, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -91,7 +91,7 @@ exports.deleteOne = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `DELETE FROM adr_booking WHERE id = ?`
+  let sql = `DELETE FROM adr_booking WHERE id_ab = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [id]
   //ลบข้อมูล โดยส่งคำสั่ง SQL และ id เข้าไป

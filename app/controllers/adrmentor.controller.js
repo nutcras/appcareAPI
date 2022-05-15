@@ -51,7 +51,7 @@ exports.findOne = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `SELECT * FROM adr_mentor WHERE id = ${id}`
+  let sql = `SELECT * FROM adr_mentor WHERE id_am = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
  await mysql.get(sql, (err, data) => {
     if (err)

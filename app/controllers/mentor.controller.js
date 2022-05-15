@@ -48,7 +48,7 @@ exports.findAll = async (req, res) => {
   let sql = `SELECT mentor.* ,adrm.* 
   FROM mentor
   LEFT JOIN adr_mentor adrm
-  ON adrm.id=mentor.adrm_id`
+  ON adrm.id_am=mentor.adrm_id`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -68,7 +68,7 @@ exports.findOne = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `SELECT * FROM mentor WHERE id = ${id}`
+  let sql = `SELECT * FROM mentor WHERE idm = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -91,7 +91,7 @@ exports.update = async (req, res) => {
   //คำสั่ง SQL
   let sql = `UPDATE mentor SET username = ?, password = ?, title = ?, image = ?, idcard = ?, 
   phone = ?, birtday = ?, fname = ?, lname = ?, type_id = ?, adrm_id = ? 
-  WHERE id = ?`
+  WHERE idm = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [username, password, title, image, idcard,
     phone, birtday, fname, lname, type_id, adrm_id, id]
@@ -111,7 +111,7 @@ exports.deleteOne = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `DELETE FROM mentor WHERE id = ?`
+  let sql = `DELETE FROM mentor WHERE idm = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [id]
   //ลบข้อมูล โดยส่งคำสั่ง SQL และ id เข้าไป
@@ -136,7 +136,7 @@ exports.login = async (req, res) =>{
         message: err.message || 'Some error occurred.',
       })
     else if (data[0] && verifyingHash(password,data[0].password)){
-        data[0].token = await sign({id: data[0].id},'1h')
+        data[0].token = await sign({id: data[0].id},'3h')
         delete data[0].password
         res.status(200).json(data[0])
     }

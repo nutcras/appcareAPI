@@ -82,19 +82,19 @@ exports.findOne = async (req, res) => {
 
 exports.update = async (req, res) => {
   //ดึงข้อมูลจาก request
-  const { username, password, title, image, idcard,
-    phone, birtday, fname, lname, type_id, adrm_id } = req.body
+  const { username, password, type, title, image, idcard,
+    phone, birtday, fname, lname, adrm_id } = req.body
   //ดึงข้อมูลจาก params
   const { id } = req.params
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [fname, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE mentor SET username = ?, password = ?, title = ?, image = ?, idcard = ?, 
-  phone = ?, birtday = ?, fname = ?, lname = ?, type_id = ?, adrm_id = ? 
+  let sql = `UPDATE mentor SET username = ?, password = ?, type = ?, title = ?, image = ?, idcard = ?, 
+  phone = ?, birtday = ?, fname = ?, lname = ?, adrm_id = ? 
   WHERE idm = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  let data = [username, password, title, image, idcard,
-    phone, birtday, fname, lname, type_id, adrm_id, id]
+  let data = [username, password, type, title, image, idcard,
+    phone, birtday, fname, lname, adrm_id, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.update(sql, data, (err, data) => {
     if (err)

@@ -1,7 +1,9 @@
-version: "3.3"
+version: '3.8'
 
 services:
-  web:
-    env_file: .env
-    build:
-      context: .
+  express:
+    build: .
+    env_file:
+      - ./.env
+    ports:
+      - "${PORT}:${PORT}"

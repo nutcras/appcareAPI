@@ -66,7 +66,7 @@ exports.findOne = async (req, res) => {
   ON men.idm=book.men_id
   WHERE book.idb = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
- await mysql.get(sql, (err, data) => {
+  await mysql.get(sql, (err, data) => {
     if (err)
       res.status(err.status).send({
         message: err.message || 'Some error occurred.',
@@ -87,7 +87,7 @@ exports.findOneMen = async (req, res) => {
   ON men.idm=book.men_id
   WHERE book.men_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
- await mysql.get(sql, (err, data) => {
+  await mysql.get(sql, (err, data) => {
     if (err)
       res.status(err.status).send({
         message: err.message || 'Some error occurred.',
@@ -108,7 +108,7 @@ exports.findOneCust = async (req, res) => {
   ON men.idm=book.men_id
   WHERE book.cust_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
- await mysql.get(sql, (err, data) => {
+  await mysql.get(sql, (err, data) => {
     if (err)
       res.status(err.status).send({
         message: err.message || 'Some error occurred.',

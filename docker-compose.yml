@@ -1,5 +1,7 @@
-version: '3.9'
+version: "3.3"
 
 services:
-  apiapp:
-    build: .
+  web:
+    env_file: .env
+    build:
+      context: .

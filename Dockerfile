@@ -3,4 +3,4 @@ WORKDIR /app
 ADD . /app
 ENV TZ Asia/Bangkok
 RUN npm install --production
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "start"]

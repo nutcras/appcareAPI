@@ -34,7 +34,7 @@ services:
       - DB_HOST=mysqldb
       - DB_USER=$DB_USER
       - DB_PASSWORD=$DB_PASSWORD
-      - DB_NAME=$DB_NAME
+      - DB_DATABASE=$DB_DATABASE
     ports:
       - "${PORT}:${PORT}"
 

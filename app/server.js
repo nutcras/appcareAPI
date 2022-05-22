@@ -8,6 +8,7 @@ module.exports = () => {
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
 
+
   //หน้าแรกจะแสดงคำยอดฮิต
   app.get('/', (req, res) => {
     return res.send('<h1>API APP CARE CONNECT!!</h1>')

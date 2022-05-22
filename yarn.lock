@@ -1409,9 +1409,9 @@
   "version" "4.1.1"
 
 "object-inspect@^1.9.0":
-  "integrity" "sha512-Ho2z80bVIvJloH+YzRmpZVQe87+qASmBUKZDWgx9cu+KDrX2ZDH/3tMy+gXbZETVGs2M8YdxObOh7XAtim9Y0g=="
-  "resolved" "https://registry.npmjs.org/object-inspect/-/object-inspect-1.12.0.tgz"
-  "version" "1.12.0"
+  "integrity" "sha512-Y/jF6vnvEtOPGiKD1+q+X0CiUYRQtEHp89MLLUJ7TUivtH8Ugn2+3A7Rynqk7BRsAoqeOQWnFnjpDrKSxDgIGA=="
+  "resolved" "https://registry.npmjs.org/object-inspect/-/object-inspect-1.12.1.tgz"
+  "version" "1.12.1"
 
 "on-finished@~2.3.0":
   "integrity" "sha1-IPEzZIGwg811M3mSoWlxqi2QaUc="

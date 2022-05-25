@@ -75,7 +75,7 @@ exports.findOne = async (req, res) => {
   })
 }
 
-exports.findOneMen = async (req, res) => {
+exports.findGetCust1 = async (req, res) => {
   //ดึงข้อมูลจาก params
   const { id } = req.params
   // ตรวจสอบความถูกต้อง request
@@ -84,7 +84,67 @@ exports.findOneMen = async (req, res) => {
   let sql = `SELECT book.*, men.fname, men.lname, men.title, men.phone, men.birtday, men.image, men.type FROM booking book
   LEFT JOIN mentor men
   ON men.idm=book.men_id
-  WHERE book.men_id = ${id}`
+  WHERE book.bstatus = 71 AND book.men_id = ${id}`
+  //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.get(sql, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else if (data) res.status(200).json(data)
+    else res.status(204).end()
+  })
+}
+exports.findGetCust2 = async (req, res) => {
+  //ดึงข้อมูลจาก params
+  const { id } = req.params
+  // ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [id])) return
+  //คำสั่ง SQL
+  let sql = `SELECT book.*, men.fname, men.lname, men.title, men.phone, men.birtday, men.image, men.type FROM booking book
+  LEFT JOIN mentor men
+  ON men.idm=book.men_id
+  WHERE book.bstatus = 72 AND book.men_id = ${id}`
+  //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.get(sql, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else if (data) res.status(200).json(data)
+    else res.status(204).end()
+  })
+}
+exports.findGetCust3 = async (req, res) => {
+  //ดึงข้อมูลจาก params
+  const { id } = req.params
+  // ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [id])) return
+  //คำสั่ง SQL
+  let sql = `SELECT book.*, men.fname, men.lname, men.title, men.phone, men.birtday, men.image, men.type FROM booking book
+  LEFT JOIN mentor men
+  ON men.idm=book.men_id
+  WHERE book.bstatus = 73 AND book.men_id = ${id}`
+  //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.get(sql, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else if (data) res.status(200).json(data)
+    else res.status(204).end()
+  })
+}
+exports.findGetCust4 = async (req, res) => {
+  //ดึงข้อมูลจาก params
+  const { id } = req.params
+  // ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [id])) return
+  //คำสั่ง SQL
+  let sql = `SELECT book.*, men.fname, men.lname, men.title, men.phone, men.birtday, men.image, men.type FROM booking book
+  LEFT JOIN mentor men
+  ON men.idm=book.men_id
+  WHERE book.bstatus = 74 AND book.men_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)

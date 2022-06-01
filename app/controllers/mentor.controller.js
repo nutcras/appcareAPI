@@ -16,14 +16,14 @@ exports.create = async (req, res) => {
     username: username,
     password: hashPassword(password),
     rate:rate,
+    type:type_id,
     title:title,
     image:image, 
     idcard:idcard, 
     phone:phone, 
     birtday:birtday, 
     fname:fname, 
-    lname:lname, 
-    type_id:type_id, 
+    lname:lname,
     adrm_id:adrm_id,
     
   }

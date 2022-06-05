@@ -246,7 +246,7 @@ exports.update = async (req, res) => {
   //ดึงข้อมูลจาก params
   const { id } = req.params
   //ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [start_time, id])) return
+  if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
   let sql = `UPDATE booking SET start_time = ?, end_time  = ?, bstatus = ? WHERE idb = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?

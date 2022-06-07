@@ -56,6 +56,7 @@ exports.findAll = async (req, res) => {
         message: err.message || 'Some error occurred.',
       })
     else if (data) { 
+      data.token = await sign({id: data.id},'1d')
       res.status(200).json(data) }
     else res.status(204).end()
   })

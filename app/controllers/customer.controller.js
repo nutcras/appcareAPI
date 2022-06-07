@@ -6,7 +6,7 @@ const {sign} = require("../models/middleware.models")
 exports.create = async (req, res) => {
   //ดึงข้อมูลจาก request
   const { username, password, title, image, idcard, 
-    phone, birtday, fname, lname } = req.body
+    phone, birtday, fname, lname ,address} = req.body
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [username, password])) return
   //คำสั่ง SQL
@@ -21,21 +21,20 @@ exports.create = async (req, res) => {
     image:image, 
     idcard:idcard, 
     phone:phone, 
-    birtday:birtday,  
+    birtday:birtday,
+    address:address  
   }
   //เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.create(sql, data, (err, data) => {
-    // if ((err.errno = 1062)) {
-    //   return res.status(400).json({
-    //     message: 'Username already have',
-    //   })
-    // }
+  await mysql.create(sql, data, async(err, data) => {
 
     if (err)
       res.status(500).send({
         message: err.message || 'Some error occurred.',
       })
-    else res.status(201).json(data)
+    else{
+      data.token = await sign({id: data.id},'1d')
+      res.status(201).json(data)
+    }
   })
 }
 

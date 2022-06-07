@@ -20,12 +20,6 @@ exports.create = async (req, res) => {
   }
   //เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.create(sql, data, (err, data) => {
-    // if ((err.errno = 1062)) {
-    //   return res.status(400).json({
-    //     message: 'Username already have',
-    //   })
-    // }
-
     if (err)
       res.status(500).send({
         message: err.message || 'Some error occurred.',

@@ -3,13 +3,15 @@ const mysql = require('../models/mysql.models')
 
 exports.create = async (req, res) => {
   //ดึงข้อมูลจาก request
-  const { start_time, end_time, rate, bstatus, cust_id,  adrb_id, men_id} = req.body
+  const { start_date, end_date, start_time, end_time, rate, bstatus, cust_id,  adrb_id, men_id} = req.body
   //ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [start_time, end_time ])) return
+  if (validate_req(req, res, [start_date, end_date ])) return
   //คำสั่ง SQL
   let sql = `INSERT INTO booking SET ?`
   //ข้อมูลที่จะใส่ ชื่อฟิล : ข้อมูล
   let data = {
+    start_date:start_date,
+    end_date: end_date,
     start_time:start_time, 
     end_time:end_time,
     rate: rate, 
@@ -236,15 +238,15 @@ exports.findGetMen4 = async (req, res) => {
 }
 exports.update = async (req, res) => {
   //ดึงข้อมูลจาก request
-  const {bstatus} = req.body
+  const {start_date, end_date, start_time, end_time, bstatus} = req.body
   //ดึงข้อมูลจาก params
   const { id } = req.params
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE booking SET bstatus = ? WHERE idb = ?`
+  let sql = `UPDATE booking SET start_date = ?, end_date = ?, start_time = ?, end_time = ?, bstatus = ? WHERE idb = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  let data = [bstatus, id]
+  let data = [start_date, end_date, start_time, end_time, bstatus, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
  await mysql.update(sql, data, (err, data) => {
     if (err)

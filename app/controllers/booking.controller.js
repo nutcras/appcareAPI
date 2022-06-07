@@ -78,7 +78,7 @@ exports.findGetCust1 = async (req, res) => {
   let sql = `SELECT book.*, men.fname, men.lname, men.title, men.phone, men.birtday, men.image, men.type FROM booking book
   LEFT JOIN mentor men
   ON men.idm=book.men_id
-  WHERE book.bstatus = 71 AND book.men_id = ${id}`
+  WHERE book.bstatus = 71 AND book.cust_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -98,7 +98,7 @@ exports.findGetCust2 = async (req, res) => {
   let sql = `SELECT book.*, men.fname, men.lname, men.title, men.phone, men.birtday, men.image, men.type FROM booking book
   LEFT JOIN mentor men
   ON men.idm=book.men_id
-  WHERE book.bstatus = 72 AND book.men_id = ${id}`
+  WHERE book.bstatus = 72 AND book.cust_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -118,7 +118,7 @@ exports.findGetCust3 = async (req, res) => {
   let sql = `SELECT book.*, men.fname, men.lname, men.title, men.phone, men.birtday, men.image, men.type FROM booking book
   LEFT JOIN mentor men
   ON men.idm=book.men_id
-  WHERE book.bstatus = 73 AND book.men_id = ${id}`
+  WHERE book.bstatus = 73 AND book.cust_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -138,7 +138,7 @@ exports.findGetCust4 = async (req, res) => {
   let sql = `SELECT book.*, men.fname, men.lname, men.title, men.phone, men.birtday, men.image, men.type FROM booking book
   LEFT JOIN mentor men
   ON men.idm=book.men_id
-  WHERE book.bstatus = 74 AND book.men_id = ${id}`
+  WHERE book.bstatus = 74 AND book.cust_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -160,7 +160,7 @@ exports.findGetMen1 = async (req, res) => {
   let sql = `SELECT book.*, cust.title, cust.fname, cust.lname, cust.address, cust.birtday, cust.image FROM booking book
   LEFT JOIN customer cust
   ON cust.idc=book.cust_id
-  WHERE book.bstatus = 71 AND book.cust_id = ${id}`
+  WHERE book.bstatus = 71 AND book.men_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -181,7 +181,7 @@ exports.findGetMen2 = async (req, res) => {
   let sql = `SELECT book.*, cust.title, cust.fname, cust.lname, cust.address, cust.birtday, cust.image FROM booking book
   LEFT JOIN customer cust
   ON cust.idc=book.cust_id
-  WHERE book.bstatus = 72 AND book.cust_id = ${id}`
+  WHERE book.bstatus = 72 AND book.men_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -202,7 +202,7 @@ exports.findGetMen3 = async (req, res) => {
   let sql = `SELECT book.*, cust.title, cust.fname, cust.lname, cust.address, cust.birtday, cust.image FROM booking book
   LEFT JOIN customer cust
   ON cust.idc=book.cust_id
-  WHERE book.bstatus = 73 AND book.cust_id = ${id}`
+  WHERE book.bstatus = 73 AND book.men_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -223,7 +223,7 @@ exports.findGetMen4 = async (req, res) => {
   let sql = `SELECT book.*, cust.title, cust.fname, cust.lname, cust.address, cust.birtday, cust.image FROM booking book
   LEFT JOIN customer cust
   ON cust.idc=book.cust_id
-  WHERE book.bstatus = 74 AND book.cust_id = ${id}`
+  WHERE book.bstatus = 74 AND book.men_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)

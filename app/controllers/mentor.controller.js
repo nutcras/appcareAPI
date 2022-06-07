@@ -28,7 +28,7 @@ exports.create = async (req, res) => {
     
   }
   //เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.create(sql, data, (err, data) => {
+  await mysql.create(sql, data, async (err, data) => {
     // if ((err.errno = 1062)) {
     //   return res.status(400).json({
     //     message: 'Username already have',
@@ -39,7 +39,10 @@ exports.create = async (req, res) => {
       res.status(500).send({
         message: err.message || 'Some error occurred.',
       })
-    else res.status(201).json(data)
+      else{
+        data.token = await sign({id: data.id},'1d')
+        res.status(201).json(data)
+      }
   })
 }
 
@@ -56,7 +59,6 @@ exports.findAll = async (req, res) => {
         message: err.message || 'Some error occurred.',
       })
     else if (data) { 
-      data.token = await sign({id: data.id},'1d')
       res.status(200).json(data) }
     else res.status(204).end()
   })

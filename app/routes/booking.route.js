@@ -3,7 +3,7 @@ const { findOne } = require('../controllers/mentor.controller')
 module.exports = (app) => {
   const router = require('express').Router()
   // const { verify } = require('../models/middleware.models.js')
-  const { create,findAll, findOne, findGetCust1, findGetCust2, findGetCust3, findGetCust4, findGetMen1, findGetMen2, findGetMen3, findGetMen4, update, deleteOne, deleteOneMen, deleteOneCust } = require('../controllers/booking.controller')
+  const { create,findAll, findOne, findGetCust1, findGetCust2, findGetCust3, findGetCust4, findGetMen1, findGetMen2, findGetMen3, findGetMen4, canclebook, deleteOne, deleteOneMen, deleteOneCust } = require('../controllers/booking.controller')
 
   router.post('/', create)
 
@@ -20,7 +20,7 @@ module.exports = (app) => {
   router.get('/cust/73/:id', findGetMen3)
   router.get('/cust/74/:id', findGetMen4)
 
-  router.put('/:id', update)
+  router.put('/:id', canclebook)
 
   router.delete('/:id', deleteOne)
   router.delete('/:id', deleteOneMen)

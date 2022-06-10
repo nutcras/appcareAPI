@@ -83,7 +83,67 @@ exports.findOne = async (req, res) => {
   })
 }
 
-exports.update = async (req, res) => {
+exports.updateprofile1 = async (req, res) => {
+  //ดึงข้อมูลจาก request
+  const {  password } = req.body
+  //ดึงข้อมูลจาก params
+  const { id } = req.params
+  //ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [password, id])) return
+  //คำสั่ง SQL
+  let sql = `UPDATE mentor SET password = ?`
+  //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
+  let data = [password, id]
+  //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.update(sql, data, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else res.status(204).end()
+  })
+}
+exports.updateprofile2 = async (req, res) => {
+  //ดึงข้อมูลจาก request
+  const { title, fname, lname } = req.body
+  //ดึงข้อมูลจาก params
+  const { id } = req.params
+  //ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [fname, id])) return
+  //คำสั่ง SQL
+  let sql = `UPDATE mentor SET title = ?, fname=?, lname=?`
+  //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
+  let data = [title, fname, lname,  id]
+  //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.update(sql, data, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else res.status(204).end()
+  })
+}
+exports.updateprofile3 = async (req, res) => {
+  //ดึงข้อมูลจาก request
+  const { image } = req.body
+  //ดึงข้อมูลจาก params
+  const { id } = req.params
+  //ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [image, id])) return
+  //คำสั่ง SQL
+  let sql = `UPDATE mentor SET image =? `
+  //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
+  let data = [image, id]
+  //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.update(sql, data, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else res.status(204).end()
+  })
+}
+exports.updateprofile4 = async (req, res) => {
   //ดึงข้อมูลจาก request
   const { username, password, type, title, image, idcard,
     phone, birtday, fname, lname, adrm_id } = req.body
@@ -92,9 +152,7 @@ exports.update = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [fname, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE mentor SET username = ?, password = ?, type = ?, title = ?, image = ?, idcard = ?, 
-  phone = ?, birtday = ?, fname = ?, lname = ?, adrm_id = ? 
-  WHERE idm = ?`
+  let sql = `UPDATE mentor SET birtday = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [username, password, type, title, image, idcard,
     phone, birtday, fname, lname, adrm_id, id]

@@ -242,15 +242,15 @@ exports.findGetMen4 = async (req, res) => {
 }
 exports.update = async (req, res) => {
   //ดึงข้อมูลจาก request
-  const { start_time, end_time, bstatus, adrb_id } = req.body
+  const {  bstatus } = req.body
   //ดึงข้อมูลจาก params
   const { id } = req.params
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [start_time, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE booking SET start_time = ?, end_time  = ?, bstatus = ?, adrb = ?  WHERE idb = ?`
+  let sql = `UPDATE booking SET  bstatus = ? WHERE idb = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  let data = [start_time, end_time, bstatus, adrb_id, id]
+  let data = [ bstatus, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
  await mysql.update(sql, data, (err, data) => {
     if (err)

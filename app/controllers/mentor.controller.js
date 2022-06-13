@@ -91,7 +91,7 @@ exports.updateprofile1 = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [password, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE mentor SET password = ?`
+  let sql = `UPDATE mentor SET password = ? WHERE idm = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [password, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -111,7 +111,7 @@ exports.updateprofile2 = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [fname, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE mentor SET title = ?, fname=?, lname=?`
+  let sql = `UPDATE mentor SET title = ?, fname=?, lname=? WHERE idm = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [title, fname, lname,  id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -131,7 +131,7 @@ exports.updateprofile3 = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [image, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE mentor SET image =? `
+  let sql = `UPDATE mentor SET image =? WHERE idm = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [image, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -145,17 +145,15 @@ exports.updateprofile3 = async (req, res) => {
 }
 exports.updateprofile4 = async (req, res) => {
   //ดึงข้อมูลจาก request
-  const { username, password, type, title, image, idcard,
-    phone, birtday, fname, lname, adrm_id } = req.body
+  const { birtday } = req.body
   //ดึงข้อมูลจาก params
   const { id } = req.params
   //ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [fname, id])) return
+  if (validate_req(req, res, [birtday, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE mentor SET birtday = ?`
+  let sql = `UPDATE mentor SET birtday = ? WHERE idm = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  let data = [username, password, type, title, image, idcard,
-    phone, birtday, fname, lname, adrm_id, id]
+  let data = [ birtday, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.update(sql, data, (err, data) => {
     if (err)

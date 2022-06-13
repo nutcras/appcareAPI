@@ -9,10 +9,10 @@ module.exports = (app) => {
 
   router.get('/:id', verify, findOne)
 
-  router.put('/:id', updateprofile1)
-  router.put('/:id', updateprofile2)
-  router.put('/:id', updateprofile3)
-  router.put('/:id', updateprofile4)
+  router.put('/p1/:id', updateprofile1)
+  router.put('/p2/:id', updateprofile2)
+  router.put('/p3/:id', updateprofile3)
+  router.put('/p4/:id', updateprofile4)
 
   router.delete('/:id', deleteOne)
 

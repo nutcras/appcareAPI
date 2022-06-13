@@ -75,18 +75,21 @@ exports.findOne = async (req, res) => {
   })
 }
 
-exports.updateProfile1 = async (req, res) => {
+exports.update = async (req, res) => {
   //ดึงข้อมูลจาก request
-  const { title, fname, lname } = req.body
+  const { username, password, title, image, idcard,
+    phone, birtday, fname, lname } = req.body
   //ดึงข้อมูลจาก params
   const { id } = req.params
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [fname, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE customer SET  title = ?, fname = ?, lname = ?
+  let sql = `UPDATE customer SET username = ?, password = ?, title = ?, image = ?, idcard = ?, 
+  phone = ?, birtday = ?, fname = ?, lname = ?
   WHERE idc = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  let data = [ title, fname, lname, id]
+  let data = [username, password, title, image, idcard,
+    phone, birtday, fname, lname, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.update(sql, data, (err, data) => {
     if (err)
@@ -96,92 +99,6 @@ exports.updateProfile1 = async (req, res) => {
     else res.status(204).end()
   })
 }
-exports.updateProfile2 = async (req, res) => {
-  //ดึงข้อมูลจาก request
-  const { password } = req.body
-  //ดึงข้อมูลจาก params
-  const { id } = req.params
-  //ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [password, id])) return
-  //คำสั่ง SQL
-  let sql = `UPDATE customer SET  password = ?
-  WHERE idc = ?`
-  //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  let data = [ password, id]
-  //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.update(sql, data, (err, data) => {
-    if (err)
-      res.status(err.status).send({
-        message: err.message || 'Some error occurred.',
-      })
-    else res.status(204).end()
-  })
-}
-exports.updateProfile3 = async (req, res) => {
-  //ดึงข้อมูลจาก request
-  const { birtday } = req.body
-  //ดึงข้อมูลจาก params
-  const { id } = req.params
-  //ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [birtday, id])) return
-  //คำสั่ง SQL
-  let sql = `UPDATE customer SET  birtday=?
-  WHERE idc = ?`
-  //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  let data = [ birtday, id]
-  //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.update(sql, data, (err, data) => {
-    if (err)
-      res.status(err.status).send({
-        message: err.message || 'Some error occurred.',
-      })
-    else res.status(204).end()
-  })
-}
-exports.updateProfile4 = async (req, res) => {
-  //ดึงข้อมูลจาก request
-  const { phone } = req.body
-  //ดึงข้อมูลจาก params
-  const { id } = req.params
-  //ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [phone, id])) return
-  //คำสั่ง SQL
-  let sql = `UPDATE customer SET  phone =?
-  WHERE idc = ?`
-  //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  let data = [ phone, id]
-  //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.update(sql, data, (err, data) => {
-    if (err)
-      res.status(err.status).send({
-        message: err.message || 'Some error occurred.',
-      })
-    else res.status(204).end()
-  })
-}
-
-exports.updateProfile5 = async (req, res) => {
-  //ดึงข้อมูลจาก request
-  const { address } = req.body
-  //ดึงข้อมูลจาก params
-  const { id } = req.params
-  //ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [address, id])) return
-  //คำสั่ง SQL
-  let sql = `UPDATE customer SET  address =?
-  WHERE idc = ?`
-  //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  let data = [ address, id]
-  //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.update(sql, data, (err, data) => {
-    if (err)
-      res.status(err.status).send({
-        message: err.message || 'Some error occurred.',
-      })
-    else res.status(204).end()
-  })
-}
-
 
 exports.deleteOne = async (req, res) => {
   //ดึงข้อมูลจาก params
@@ -201,8 +118,6 @@ exports.deleteOne = async (req, res) => {
     else res.status(204).end()
   })
 }
-
-
 
 exports.login = async (req, res) =>{
   const { username, password} = req.body

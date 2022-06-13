@@ -75,7 +75,7 @@ exports.findOne = async (req, res) => {
   })
 }
 
-exports.updateprofile1 = async (req, res) => {
+exports.updateProfile1 = async (req, res) => {
   //ดึงข้อมูลจาก request
   const {  password } = req.body
   //ดึงข้อมูลจาก params
@@ -95,7 +95,7 @@ exports.updateprofile1 = async (req, res) => {
     else res.status(204).end()
   })
 }
-exports.updateprofile2 = async (req, res) => {
+exports.updateProfile2 = async (req, res) => {
   //ดึงข้อมูลจาก request
   const { title, fname, lname } = req.body
   //ดึงข้อมูลจาก params
@@ -115,7 +115,7 @@ exports.updateprofile2 = async (req, res) => {
     else res.status(204).end()
   })
 }
-exports.updateprofile3 = async (req, res) => {
+exports.updateProfile3 = async (req, res) => {
   //ดึงข้อมูลจาก request
   const { image } = req.body
   //ดึงข้อมูลจาก params
@@ -135,7 +135,7 @@ exports.updateprofile3 = async (req, res) => {
     else res.status(204).end()
   })
 }
-exports.updateprofile4 = async (req, res) => {
+exports.updateProfile4 = async (req, res) => {
   //ดึงข้อมูลจาก request
   const { username, password, type, title, image, idcard,
     phone, birtday, fname, lname, adrm_id } = req.body

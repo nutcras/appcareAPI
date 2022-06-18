@@ -137,17 +137,17 @@ exports.updateProfile3 = async (req, res) => {
 }
 exports.updateProfile4 = async (req, res) => {
   //ดึงข้อมูลจาก request
-  const { username, password, type, title, image, idcard,
-    phone, birtday, fname, lname, adrm_id } = req.body
+  const { 
+    phone } = req.body
   //ดึงข้อมูลจาก params
   const { id } = req.params
   //ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [fname, id])) return
+  if (validate_req(req, res, [phone, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE customer SET birtday = ? WHERE idc = ?`
+  let sql = `UPDATE customer SET phone = ? WHERE idc = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [
-     birtday, id]
+     phone, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.update(sql, data, (err, data) => {
     if (err)

@@ -48,6 +48,26 @@ exports.findAll = async (req, res) => {
   })
 }
 
+exports.findReview = async (req, res) => {
+  //ดึงข้อมูลจาก params
+  const { id } = req.params
+  // ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [id])) return
+  //คำสั่ง SQL
+  let sql = `SELECT idb, cust_id, score, review 
+  FROM booking
+  WHERE men_id = ${id}`
+  //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.get(sql, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else if (data) res.status(200).json(data)
+    else res.status(204).end()
+  })
+}
+
 exports.findOne = async (req, res) => {
   //ดึงข้อมูลจาก params
   const { id } = req.params

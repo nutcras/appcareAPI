@@ -1,13 +1,13 @@
 module.exports = (app) => {
   const router = require('express').Router()
   const { verify } = require('../models/middleware.models.js')
-  const { create,findAll, findReviewMentor,findOne,updateprofile1, updateprofile2, updateprofile3, updateprofile4,deleteOne ,login, findReviewMentor} = require('../controllers/mentor.controller')
+  const { create,findAll,findOne,updateprofile1, updateprofile2, updateprofile3, updateprofile4,deleteOne ,login, findReviewMentor} = require('../controllers/mentor.controller')
 
   router.post('/', create)
 
   router.get('/', verify,findAll)
 
-  router.get('/rev.men/:id',findReviewMentor)
+
   router.get('/:id', verify, findOne)
 
   router.put('/p1/:id', updateprofile1)

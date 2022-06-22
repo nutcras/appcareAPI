@@ -54,8 +54,10 @@ exports.findReview = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `SELECT idb, cust_id, score, review 
+  let sql = `SELECT idb, cust.fname, score, review 
   FROM booking
+  LEFT JOIN customer cust
+  ON cust.idc=booking.cust_id
   WHERE men_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {

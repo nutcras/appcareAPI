@@ -48,10 +48,14 @@ exports.create = async (req, res) => {
 
 exports.findAll = async (req, res) => {
   //คำสั่ง SQL
-  let sql = `SELECT mentor.* ,adrm.* 
+  let sql = `SELECT mentor.* ,adrm.*, AVG(book.score) AS averageRatting, COUNT(book.score) AS countScore
   FROM mentor
   LEFT JOIN adr_mentor adrm
-  ON adrm.id_am=mentor.adrm_id`
+  ON adrm.id_am=mentor.adrm_id
+  LEFT JOIN booking book
+  on book.men_id=mentor.idm
+  WHERE book.men_id
+  GROUP BY idm`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)

@@ -68,7 +68,7 @@ exports.findOne = async (req, res) => {
   })
 }
 
-exports.updateProfile1 = async (req, res) => {
+exports.update = async (req, res) => {
   //ดึงข้อมูลจาก request
   const {  password } = req.body
   //ดึงข้อมูลจาก params
@@ -79,6 +79,26 @@ exports.updateProfile1 = async (req, res) => {
   let sql = `UPDATE manager SET password = ? WHERE id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [password, id]
+  //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.update(sql, data, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else res.status(204).end()
+  })
+}
+exports.updateAccountMentor = async (req, res) => {
+  //ดึงข้อมูลจาก request
+  const {  status } = req.body
+  //ดึงข้อมูลจาก params
+  const { id } = req.params
+  //ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [status, id])) return
+  //คำสั่ง SQL
+  let sql = `UPDATE manager SET status_id = ? WHERE idm = ?`
+  //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
+  let data = [status, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.update(sql, data, (err, data) => {
     if (err)

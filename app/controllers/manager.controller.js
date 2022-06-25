@@ -127,7 +127,7 @@ exports.login = async (req, res) =>{
   const { username, password} = req.body
   if(validate_req(req, res [username, password])) return
 
-  let sql = `SELECT * FROM users WHERE username = '${username}'`
+  let sql = `SELECT * FROM manager WHERE username = '${username}'`
 
   await mysql.get(sql, async (err, data) => {
     if (err)

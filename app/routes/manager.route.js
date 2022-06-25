@@ -1,7 +1,7 @@
 module.exports = (app) => {
   const router = require('express').Router()
   // const { verify } = require('../models/middleware.models.js')
-  const { create, findAll, findOne, update, updateAccountMentor, deleteOne} = require('../controllers/manager.controller')
+  const { create, findAll, findOne, update, updateAccountMentor, deleteOne, login} = require('../controllers/manager.controller')
 
   router.post('/', create)
 
@@ -15,6 +15,7 @@ module.exports = (app) => {
 
   router.delete('/:id', deleteOne)
 
+  router.post('/login/', login)
   //เซ็ต PREFIX
   app.use(process.env.PREFIX + '/manager', router)
 }

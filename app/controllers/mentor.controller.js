@@ -206,6 +206,4 @@ exports.login = async (req, res) =>{
     }
     else res.status(204).end()
   })
-
-
 }

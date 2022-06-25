@@ -1,5 +1,7 @@
 const validate_req = require('../models/validate_req.models')
 const mysql = require('../models/mysql.models')
+const {verifyingHash, hashPassword} = require('../models/hashing.models')
+const {sign} = require("../models/middleware.models")
 
 exports.create = async (req, res) => {
   //ดึงข้อมูลจาก request
@@ -11,7 +13,7 @@ exports.create = async (req, res) => {
   //ข้อมูลที่จะใส่ ชื่อฟิล : ข้อมูล
   let data = {
     username: username, 
-    password: password, 
+    password: hashPassword(password), 
     fname: fname, 
     lname: lname, 
   }
@@ -117,6 +119,26 @@ exports.deleteOne = async (req, res) => {
       res.status(err.status).send({
         message: err.message || 'Some error occurred.',
       })
+    else res.status(204).end()
+  })
+}
+
+exports.login = async (req, res) =>{
+  const { username, password} = req.body
+  if(validate_req(req, res [username, password])) return
+
+  let sql = `SELECT * FROM users WHERE username = '${username}'`
+
+  await mysql.get(sql, async (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else if (data[0] && verifyingHash(password,data[0].password)){
+        data[0].token = await sign({id: data[0].id},'3h')
+        delete data[0].password
+        res.status(200).json(data[0])
+    }
     else res.status(204).end()
   })
 }

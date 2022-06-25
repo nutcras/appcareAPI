@@ -5,13 +5,13 @@ module.exports = (app) => {
 
   router.post('/', create)
 
-  router.get('/',verify, findAll)
+  router.get('/', findAll)
 
-  router.get('/:id',verify, findOne)
+  router.get('/:id', findOne)
 
   router.put('/:id', update)
 
-  router.put('/men/:id',verify, updateAccountMentor)
+  router.put('/men/:id', updateAccountMentor)
 
   router.delete('/:id', deleteOne)
 

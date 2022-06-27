@@ -75,7 +75,7 @@ exports.findOne = async (req, res) => {
   })
 }
 
-exports.updateprofile1 = async (req, res) => {
+exports.updateProfile1 = async (req, res) => {
   //ดึงข้อมูลจาก request
   const { oldpassword, password } = req.body
   //ดึงข้อมูลจาก params

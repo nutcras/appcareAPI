@@ -153,7 +153,7 @@ exports.updateprofile3 = async (req, res) => {
   })
 }
 
-exports.updateProfile4 = async (req, res) => {
+exports.updateprofile4 = async (req, res) => {
   //ดึงข้อมูลจาก request
   const { 
     phone } = req.body
@@ -175,7 +175,7 @@ exports.updateProfile4 = async (req, res) => {
     else res.status(204).end()
   })
 }
-exports.updateProfile5 = async (req, res) => {
+exports.updateprofile5 = async (req, res) => {
   //ดึงข้อมูลจาก request
   const { tambons, amphures, provinces, geographies, pincode } = req.body
   //ดึงข้อมูลจาก params

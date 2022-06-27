@@ -163,7 +163,7 @@ exports.updateProfile5 = async (req, res) => {
   //ดึงข้อมูลจาก params
   const { id } = req.params
   //ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [phone, id])) return
+  if (validate_req(req, res, [address, id])) return
   //คำสั่ง SQL
   let sql = `UPDATE customer SET address = ? WHERE idc = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?

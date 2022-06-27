@@ -94,24 +94,43 @@ exports.findOne = async (req, res) => {
 
 exports.updateprofile1 = async (req, res) => {
   //ดึงข้อมูลจาก request
-  const {  password } = req.body
+  const { oldpassword, password } = req.body
   //ดึงข้อมูลจาก params
   const { id } = req.params
   //ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [password, id])) return
+  if (validate_req(req, res, [oldpassword, password, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE mentor SET password = ? WHERE idm = ?`
-  //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  let data = [password, id]
-  //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.update(sql, data, (err, data) => {
-    if (err)
+  let sql = `SELECT password FROM mentor WHERE idm = ${id}`
+  await mysql.get(sql, (err, data) => {
+  if (err)
       res.status(err.status).send({
         message: err.message || 'Some error occurred.',
       })
-    else res.status(204).end()
+  else if(res.status(200) && data[0] && verifyingHash(oldpassword,data[0].password)){
+    delete data[0].password
+      let sql1 = `UPDATE mentor SET password = ? WHERE idm = ?`
+      //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
+      let data1 = [hashPassword(password), id]
+      //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  
+      mysql.update(sql1, data1, (err, data1) => {
+        if (err)
+          res.status(err.status).send({
+            message: err.message || 'Some error occurred.',
+          })
+          else{
+            res.status(204).json(data1[0])
+            
+        }
+      })
+  }else {
+    res.status(204).send({
+    message:'Password Not Same!.'
+    })
+  }  
   })
 }
+
 exports.updateprofile2 = async (req, res) => {
   //ดึงข้อมูลจาก request
   const { title, fname, lname } = req.body

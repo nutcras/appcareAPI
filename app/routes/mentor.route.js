@@ -14,8 +14,8 @@ module.exports = (app) => {
   router.put('/p2/:id', updateprofile2)
   router.put('/p3/:id', updateprofile3)
   router.put('/p4/:id', updateprofile4)
-  router.put('/p4/:id', updateprofile5)
-  router.put('/p4/:id', updateprofile6)
+  router.put('/p5/:id', updateprofile5)
+  router.put('/p6/:id', updateprofile6)
 
   router.delete('/:id', deleteOne)
 

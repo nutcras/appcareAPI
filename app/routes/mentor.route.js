@@ -1,7 +1,7 @@
 module.exports = (app) => {
   const router = require('express').Router()
   const { verify } = require('../models/middleware.models.js')
-  const { create,findAll,findOne,updateprofile1, updateprofile2, updateprofile3, updateprofile4,deleteOne ,login, findReviewMentor} = require('../controllers/mentor.controller')
+  const { create,findAll,findOne,updateprofile1, updateprofile2, updateprofile3, updateprofile4, updateprofile5, updateprofile6,deleteOne ,login} = require('../controllers/mentor.controller')
 
   router.post('/', create)
 
@@ -14,8 +14,11 @@ module.exports = (app) => {
   router.put('/p2/:id', updateprofile2)
   router.put('/p3/:id', updateprofile3)
   router.put('/p4/:id', updateprofile4)
+  router.put('/p4/:id', updateprofile5)
+  router.put('/p4/:id', updateprofile6)
 
   router.delete('/:id', deleteOne)
+
 
   router.post('/login/', login)
 

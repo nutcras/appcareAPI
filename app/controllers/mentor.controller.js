@@ -76,7 +76,11 @@ exports.findOne = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `SELECT * FROM mentor WHERE idm = ${id}`
+  let sql = `SELECT mentor.*,adr_mentor.* 
+  FROM mentor 
+  LEFT JOIN adr_mentor 
+  ON adrm_id=id_am 
+  WHERE idm = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -148,7 +152,50 @@ exports.updateprofile3 = async (req, res) => {
     else res.status(204).end()
   })
 }
-exports.updateprofile4 = async (req, res) => {
+
+exports.updateProfile4 = async (req, res) => {
+  //ดึงข้อมูลจาก request
+  const { 
+    phone } = req.body
+  //ดึงข้อมูลจาก params
+  const { id } = req.params
+  //ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [phone, id])) return
+  //คำสั่ง SQL
+  let sql = `UPDATE mentor SET phone = ? WHERE idm = ?`
+  //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
+  let data = [
+     phone, id]
+  //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.update(sql, data, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else res.status(204).end()
+  })
+}
+exports.updateProfile5 = async (req, res) => {
+  //ดึงข้อมูลจาก request
+  const { tambons, amphures, provinces, geographies, pincode } = req.body
+  //ดึงข้อมูลจาก params
+  const { id } = req.params
+  //ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [pincode, id])) return
+  //คำสั่ง SQL
+  let sql = `UPDATE adr_mentor SET tambons = ?, amphures =?, provinces=?, geographies=?, pincode=? WHERE id_am = ?`
+  //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
+  let data = [tambons, amphures, provinces, geographies, pincode, id]
+  //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.update(sql, data, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else res.status(204).end()
+  })
+}
+exports.updateprofile6 = async (req, res) => {
   //ดึงข้อมูลจาก request
   const { birtday } = req.body
   //ดึงข้อมูลจาก params

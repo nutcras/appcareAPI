@@ -1,13 +1,12 @@
 module.exports = () => {
   const express = require('express')
-  const bodyParser = require('body-parser')
+
   const dotenv = require('dotenv')
 
   dotenv.config()
   const app = express()
-  app.use(bodyParser.json())
-  app.use(bodyParser.urlencoded({ extended: true }))
-
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }))
 
   //หน้าแรกจะแสดงคำยอดฮิต
   app.get('/', (req, res) => {

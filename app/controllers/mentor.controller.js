@@ -54,7 +54,7 @@ exports.findAll = async (req, res) => {
   ON adrm.id_am=mentor.adrm_id
   LEFT JOIN booking book
   on book.men_id=mentor.idm
-  WHERE book.men_id
+  WHERE idm
   GROUP BY idm`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {

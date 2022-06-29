@@ -46,7 +46,7 @@ exports.create = async (req, res) => {
   })
 }
 
-exports.findAll = async (req, res) => {
+exports.fineMentorCanWork = async (req, res) => {
   //คำสั่ง SQL
   let sql = `SELECT mentor.* ,adrm.*, AVG(book.score) AS averageRatting, COUNT(book.score) AS countScore
   FROM mentor
@@ -54,8 +54,26 @@ exports.findAll = async (req, res) => {
   ON adrm.id_am=mentor.adrm_id
   LEFT JOIN booking book
   on book.men_id=mentor.idm
-  WHERE idm
+  WHERE idm AND status_id = "accept"
   GROUP BY idm`
+  //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.get(sql, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else if (data) { 
+      res.status(200).json(data) }
+    else res.status(204).end()
+  })
+}
+
+exports.unconfirm = async (req, res) => {
+  //คำสั่ง SQL
+  let sql = `SELECT mentor.* ,adrm.*  FROM mentor
+  LEFT JOIN adr_mentor adrm
+  ON adrm.id_am=mentor.adrm_id
+  WHERE status_id IS NULL`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -225,6 +243,27 @@ exports.updateprofile6 = async (req, res) => {
   let sql = `UPDATE mentor SET birtday = ? WHERE idm = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [ birtday, id]
+  //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.update(sql, data, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else res.status(204).end()
+  })
+}
+
+exports.updateAccept = async (req, res) => {
+  //ดึงข้อมูลจาก request
+  const { status_id } = req.body
+  //ดึงข้อมูลจาก params
+  const { id } = req.params
+  //ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [status_id, id])) return
+  //คำสั่ง SQL
+  let sql = `UPDATE mentor SET status_id = ? WHERE idm = ?`
+  //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
+  let data = [ status_id, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.update(sql, data, (err, data) => {
     if (err)

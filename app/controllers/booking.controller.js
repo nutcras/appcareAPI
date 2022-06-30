@@ -153,7 +153,7 @@ exports.canclebook = async (req, res) => {
   })
 }
 
-exports.Reviewlebook = async (req, res) => {
+exports.Reviewbook = async (req, res) => {
   //ดึงข้อมูลจาก request
   const {review, score} = req.body
   //ดึงข้อมูลจาก params

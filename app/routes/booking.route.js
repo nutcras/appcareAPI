@@ -16,7 +16,7 @@ module.exports = (app) => {
 
 
   router.put('/:id', canclebook)
-  router.put('/revew/:id', Reviewbook)
+  router.put('/review/:id', Reviewbook)
 
   router.delete('/:id', deleteOne)
   router.delete('/:id', deleteOneMen)

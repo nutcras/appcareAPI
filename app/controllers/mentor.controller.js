@@ -91,7 +91,7 @@ exports.findOne = async (req, res) => {
       res.status(err.status).send({
         message: err.message || 'Some error occurred.',
       })
-    else if (data[0]) res.status(200).json(data[0], delete data[0].password)
+    else if (data[0]) res.status(200).json(data[0])
     else res.status(204).end()
   })
 }

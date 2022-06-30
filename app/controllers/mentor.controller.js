@@ -200,15 +200,15 @@ exports.updateprofile4 = async (req, res) => {
 }
 exports.updateprofile5 = async (req, res) => {
   //ดึงข้อมูลจาก request
-  const { tambons, amphures, provinces, geographies, pincode } = req.body
+  const { tambons, amphures, provinces, pincode } = req.body
   //ดึงข้อมูลจาก params
   const { id } = req.params
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [pincode, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE mentor SET tambons = ?, amphures =?, provinces=?, geographies=?, pincode=? WHERE idm = ?`
+  let sql = `UPDATE mentor SET tambons = ?, amphures =?, provinces=?, pincode=? WHERE idm = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  let data = [tambons, amphures, provinces, geographies, pincode, id]
+  let data = [tambons, amphures, provinces, pincode, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.update(sql, data, (err, data) => {
     if (err)

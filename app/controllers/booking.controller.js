@@ -58,7 +58,7 @@ exports.findReview = async (req, res) => {
   FROM booking
   LEFT JOIN customer cust
   ON cust.idc=booking.cust_id
-  WHERE men_id = ${id}`
+  WHERE score IS NOT NULL AND men_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)

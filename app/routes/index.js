@@ -4,6 +4,5 @@ module.exports = (app) => {
   require('./customer.route')(app)
   require('./booking.route')(app)
   require('./adrbook.route')(app)
-  require('./adrmentor.route')(app)
   require('./manager.route')(app)
 }

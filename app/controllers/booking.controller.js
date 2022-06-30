@@ -30,12 +30,11 @@ exports.create = async (req, res) => {
 
 exports.findAll = async (req, res) => {
   //คำสั่ง SQL
-  let sql = `SELECT book.*, men.title, men.fname, men.lname, men.phone, men.birtday, adrm.*
-  FROM booking book
-  LEFT JOIN mentor men
-  ON men.idm=book.men_id
-  LEFT JOIN adr_mentor adrm
-  ON adrm.id_am=men.idm 
+  let sql = `SELECT book.*, men.title, men.fname, men.lname, men.phone, 
+  men.birtday, men.tambons, men.amphures, men.province, men.pincode
+    FROM booking book
+    LEFT JOIN mentor men
+    ON men.idm=book.men_id 
    `
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
@@ -91,76 +90,16 @@ exports.findOne = async (req, res) => {
   })
 }
 
-exports.findGetCust1 = async (req, res) => {
+exports.findGetCust = async (req, res) => {
   //ดึงข้อมูลจาก params
-  const { id } = req.params
+  const { ids,id } = req.params
   // ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [id])) return
+  if (validate_req(req, res, [ids, id])) return
   //คำสั่ง SQL
-  let sql = `SELECT book.*, men.fname, men.lname, men.title, men.phone, men.birtday, men.image, men.type FROM booking book
+  let sql = `SELECT book.*, men.fname, men.lname, men.title, men.phone, men.birtday, men.image, men.tambons, men.amphures, men.province, men.pincode, men.type FROM booking book
   LEFT JOIN mentor men
   ON men.idm=book.men_id
-  WHERE book.bstatus = 71 AND book.cust_id = ${id}`
-  //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.get(sql, (err, data) => {
-    if (err)
-      res.status(err.status).send({
-        message: err.message || 'Some error occurred.',
-      })
-    else if (data) res.status(200).json(data)
-    else res.status(204).end()
-  })
-}
-exports.findGetCust2 = async (req, res) => {
-  //ดึงข้อมูลจาก params
-  const { id } = req.params
-  // ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [id])) return
-  //คำสั่ง SQL
-  let sql = `SELECT book.*, men.fname, men.lname, men.title, men.phone, men.birtday, men.image, men.type FROM booking book
-  LEFT JOIN mentor men
-  ON men.idm=book.men_id
-  WHERE book.bstatus = 72 AND book.cust_id = ${id}`
-  //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.get(sql, (err, data) => {
-    if (err)
-      res.status(err.status).send({
-        message: err.message || 'Some error occurred.',
-      })
-    else if (data) res.status(200).json(data)
-    else res.status(204).end()
-  })
-}
-exports.findGetCust3 = async (req, res) => {
-  //ดึงข้อมูลจาก params
-  const { id } = req.params
-  // ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [id])) return
-  //คำสั่ง SQL
-  let sql = `SELECT book.*, men.fname, men.lname, men.title, men.phone, men.birtday, men.image, men.type FROM booking book
-  LEFT JOIN mentor men
-  ON men.idm=book.men_id
-  WHERE book.bstatus = 73 AND book.cust_id = ${id}`
-  //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.get(sql, (err, data) => {
-    if (err)
-      res.status(err.status).send({
-        message: err.message || 'Some error occurred.',
-      })
-    else if (data) res.status(200).json(data)
-    else res.status(204).end()
-  })
-}
-exports.findGetCust4 = async (req, res) => {
-  //ดึงข้อมูลจาก params
-  const { id } = req.params
-  // ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [id])) return
-  //คำสั่ง SQL
-  let sql = `SELECT book.*, men.fname, men.lname, men.title, men.phone, men.birtday, men.image, men.type FROM booking book
-  LEFT JOIN mentor men
-  ON men.idm=book.men_id
-  WHERE book.bstatus = 74 AND book.cust_id = ${id}`
+  WHERE book.bstatus = ${ids} AND book.cust_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -172,17 +111,16 @@ exports.findGetCust4 = async (req, res) => {
   })
 }
 
-
-exports.findGetMen1 = async (req, res) => {
+exports.findGetMen = async (req, res) => {
   //ดึงข้อมูลจาก params
-  const { id } = req.params
+  const { ids, id } = req.params
   // ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [id])) return
+  if (validate_req(req, res, [ids, id])) return
   //คำสั่ง SQL
   let sql = `SELECT book.*, cust.title, cust.fname, cust.lname, cust.address, cust.birtday, cust.image FROM booking book
   LEFT JOIN customer cust
   ON cust.idc=book.cust_id
-  WHERE book.bstatus = 71 AND book.men_id = ${id}`
+  WHERE book.bstatus = ${ids} AND book.men_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -194,68 +132,6 @@ exports.findGetMen1 = async (req, res) => {
   })
 }
 
-exports.findGetMen2 = async (req, res) => {
-  //ดึงข้อมูลจาก params
-  const { id } = req.params
-  // ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [id])) return
-  //คำสั่ง SQL
-  let sql = `SELECT book.*, cust.title, cust.fname, cust.lname, cust.address, cust.birtday, cust.image FROM booking book
-  LEFT JOIN customer cust
-  ON cust.idc=book.cust_id
-  WHERE book.bstatus = 72 AND book.men_id = ${id}`
-  //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.get(sql, (err, data) => {
-    if (err)
-      res.status(err.status).send({
-        message: err.message || 'Some error occurred.',
-      })
-    else if (data) res.status(200).json(data)
-    else res.status(204).end()
-  })
-}
-
-exports.findGetMen3 = async (req, res) => {
-  //ดึงข้อมูลจาก params
-  const { id } = req.params
-  // ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [id])) return
-  //คำสั่ง SQL
-  let sql = `SELECT book.*, cust.title, cust.fname, cust.lname, cust.address, cust.birtday, cust.image FROM booking book
-  LEFT JOIN customer cust
-  ON cust.idc=book.cust_id
-  WHERE book.bstatus = 73 AND book.men_id = ${id}`
-  //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.get(sql, (err, data) => {
-    if (err)
-      res.status(err.status).send({
-        message: err.message || 'Some error occurred.',
-      })
-    else if (data) res.status(200).json(data)
-    else res.status(204).end()
-  })
-}
-
-exports.findGetMen4 = async (req, res) => {
-  //ดึงข้อมูลจาก params
-  const { id } = req.params
-  // ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [id])) return
-  //คำสั่ง SQL
-  let sql = `SELECT book.*, cust.title, cust.fname, cust.lname, cust.address, cust.birtday, cust.image FROM booking book
-  LEFT JOIN customer cust
-  ON cust.idc=book.cust_id
-  WHERE book.bstatus = 74 AND book.men_id = ${id}`
-  //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.get(sql, (err, data) => {
-    if (err)
-      res.status(err.status).send({
-        message: err.message || 'Some error occurred.',
-      })
-    else if (data) res.status(200).json(data)
-    else res.status(204).end()
-  })
-}
 exports.canclebook = async (req, res) => {
   //ดึงข้อมูลจาก request
   const {start_time, end_time, bstatus} = req.body

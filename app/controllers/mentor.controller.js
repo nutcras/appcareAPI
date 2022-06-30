@@ -6,7 +6,7 @@ const {sign} = require("../models/middleware.models")
 exports.create = async (req, res) => {
   //ดึงข้อมูลจาก request
   const { username, password, rate, title, image, idcard, 
-    phone, birtday, fname, lname, type_id, adrm_id } = req.body
+    phone, birtday, fname, lname, type_id } = req.body
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [username, password])) return
   //คำสั่ง SQL
@@ -24,17 +24,9 @@ exports.create = async (req, res) => {
     birtday:birtday, 
     fname:fname, 
     lname:lname,
-    adrm_id:adrm_id,
-    
   }
   //เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.create(sql, data, async(err, data) => {
-    // if ((err.errno = 1062)) {
-    //   return res.status(400).json({
-    //     message: 'Username already have',
-    //   })
-    // }
-
     if (err)
       res.status(500).send({
         message: err.message || 'Some error occurred.',
@@ -48,10 +40,8 @@ exports.create = async (req, res) => {
 
 exports.fineMentorCanWork = async (req, res) => {
   //คำสั่ง SQL
-  let sql = `SELECT mentor.* ,adrm.*, AVG(book.score) AS averageRatting, COUNT(book.score) AS countScore
+  let sql = `SELECT mentor.* , AVG(book.score) AS averageRatting, COUNT(book.score) AS countScore
   FROM mentor
-  LEFT JOIN adr_mentor adrm
-  ON adrm.id_am=mentor.adrm_id
   LEFT JOIN booking book
   on book.men_id=mentor.idm
   WHERE idm AND status_id = "accept"
@@ -70,9 +60,7 @@ exports.fineMentorCanWork = async (req, res) => {
 
 exports.unconfirm = async (req, res) => {
   //คำสั่ง SQL
-  let sql = `SELECT mentor.* ,adrm.*  FROM mentor
-  LEFT JOIN adr_mentor adrm
-  ON adrm.id_am=mentor.adrm_id
+  let sql = `SELECT mentor.*  FROM mentor
   WHERE status_id IS NULL`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
@@ -94,10 +82,8 @@ exports.findOne = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `SELECT mentor.*,adr_mentor.* 
+  let sql = `SELECT mentor.*
   FROM mentor 
-  LEFT JOIN adr_mentor 
-  ON adrm_id=id_am 
   WHERE idm = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
@@ -105,7 +91,7 @@ exports.findOne = async (req, res) => {
       res.status(err.status).send({
         message: err.message || 'Some error occurred.',
       })
-    else if (data[0]) res.status(200).json(data[0])
+    else if (data[0]) res.status(200).json(data[0], delete data[0].password)
     else res.status(204).end()
   })
 }
@@ -220,7 +206,7 @@ exports.updateprofile5 = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [pincode, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE adr_mentor SET tambons = ?, amphures =?, provinces=?, geographies=?, pincode=? WHERE id_am = ?`
+  let sql = `UPDATE mentor SET tambons = ?, amphures =?, provinces=?, geographies=?, pincode=? WHERE idm = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [tambons, amphures, provinces, geographies, pincode, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป

@@ -31,7 +31,7 @@ exports.create = async (req, res) => {
 exports.findAll = async (req, res) => {
   //คำสั่ง SQL
   let sql = `SELECT book.*, men.title, men.fname, men.lname, men.phone, 
-  men.birtday, men.tambons, men.amphures, men.province, men.pincode
+  men.birtday, men.tambons, men.amphures, men.provinces, men.pincode
     FROM booking book
     LEFT JOIN mentor men
     ON men.idm=book.men_id 
@@ -96,7 +96,7 @@ exports.findGetCust = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [ids, id])) return
   //คำสั่ง SQL
-  let sql = `SELECT book.*, men.fname, men.lname, men.title, men.phone, men.birtday, men.image, men.tambons, men.amphures, men.province, men.pincode, men.type FROM booking book
+  let sql = `SELECT book.*, men.fname, men.lname, men.title, men.phone, men.birtday, men.image, men.tambons, men.amphures, men.provinces, men.pincode, men.type FROM booking book
   LEFT JOIN mentor men
   ON men.idm=book.men_id
   WHERE book.bstatus = ${ids} AND book.cust_id = ${id}`
@@ -133,6 +133,27 @@ exports.findGetMen = async (req, res) => {
 }
 
 exports.canclebook = async (req, res) => {
+  //ดึงข้อมูลจาก request
+  const {start_time, end_time, bstatus} = req.body
+  //ดึงข้อมูลจาก params
+  const { id } = req.params
+  //ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [id])) return
+  //คำสั่ง SQL
+  let sql = `UPDATE booking SET bstatus = ? WHERE idb = ?`
+  //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
+  let data = [bstatus, id]
+  //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+ await mysql.update(sql, data, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else res.status(204).end()
+  })
+}
+
+exports.Reviewlebook = async (req, res) => {
   //ดึงข้อมูลจาก request
   const {start_time, end_time, bstatus} = req.body
   //ดึงข้อมูลจาก params

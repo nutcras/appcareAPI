@@ -155,15 +155,15 @@ exports.canclebook = async (req, res) => {
 
 exports.Reviewlebook = async (req, res) => {
   //ดึงข้อมูลจาก request
-  const {start_time, end_time, bstatus} = req.body
+  const {review, score} = req.body
   //ดึงข้อมูลจาก params
   const { id } = req.params
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE booking SET bstatus = ? WHERE idb = ?`
+  let sql = `UPDATE booking SET review =?, score =? WHERE idb = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  let data = [bstatus, id]
+  let data = [review, score, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
  await mysql.update(sql, data, (err, data) => {
     if (err)

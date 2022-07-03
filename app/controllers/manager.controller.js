@@ -12,10 +12,10 @@ exports.create = async (req, res) => {
   let sql = `INSERT INTO manager SET ?`
   //ข้อมูลที่จะใส่ ชื่อฟิล : ข้อมูล
   let data = {
-    username: username,
-    password: hashPassword(password),
-    fname:fname, 
-    lname:lname,
+    manager_username: username,
+    manager_password: hashPassword(password),
+    manager_fname:fname, 
+    manager_lname:lname,
   }
   //เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.create(sql, data, async(err, data) => {
@@ -56,7 +56,7 @@ exports.findOne = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `SELECT * FROM manager WHERE id = ${id}`
+  let sql = `SELECT * FROM manager WHERE manager_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -76,7 +76,7 @@ exports.update = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [password, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE manager SET password = ? WHERE id = ?`
+  let sql = `UPDATE manager SET manager_password = ? WHERE manager_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [password, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -96,7 +96,7 @@ exports.updateAccountMentor = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [status, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE manager SET status_id = ? WHERE idm = ?`
+  let sql = `UPDATE mentor SET men_statusid = ? WHERE men_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [status, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -115,7 +115,7 @@ exports.deleteOne = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `DELETE FROM manager WHERE id = ?`
+  let sql = `DELETE FROM manager WHERE manager_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [id]
   //ลบข้อมูล โดยส่งคำสั่ง SQL และ id เข้าไป
@@ -132,7 +132,7 @@ exports.login = async (req, res) =>{
   const { username, password} = req.body
   if(validate_req(req, res [username, password])) return
 
-  let sql = `SELECT * FROM manager WHERE username = '${username}'`
+  let sql = `SELECT * FROM manager WHERE manager_username = '${username}'`
 
   await mysql.get(sql, async (err, data) => {
     if (err)

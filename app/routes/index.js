@@ -3,6 +3,5 @@ module.exports = (app) => {
   require('./mentor.route')(app)
   require('./customer.route')(app)
   require('./booking.route')(app)
-  require('./adrbook.route')(app)
   require('./manager.route')(app)
 }

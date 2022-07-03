@@ -6,24 +6,28 @@ const {sign} = require("../models/middleware.models")
 exports.create = async (req, res) => {
   //ดึงข้อมูลจาก request
   const { username, password, rate, title, image, idcard, 
-    phone, birtday, fname, lname, type_id } = req.body
+    phone, birtday, fname, lname, type, tambons, amphures, provinces, pincode } = req.body
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [username, password])) return
   //คำสั่ง SQL
   let sql = `INSERT INTO mentor SET ?`
   //ข้อมูลที่จะใส่ ชื่อฟิล : ข้อมูล
   let data = {
-    username: username,
-    password: hashPassword(password),
-    rate:rate,
-    type:type_id,
-    title:title,
-    image:image, 
-    idcard:idcard, 
-    phone:phone, 
-    birtday:birtday, 
-    fname:fname, 
-    lname:lname,
+    men_username: username,
+    men_password: hashPassword(password),
+    men_rate:rate,
+    men_type:type,
+    men_title:title,
+    men_fname:fname, 
+    men_lname:lname,
+    men_image:image, 
+    men_idcard:idcard, 
+    men_phone:phone, 
+    men_birtday:birtday, 
+    men_tambons:tambons,
+    men_amphures:amphures,
+    men_provinces:provinces,
+    men_pincode:pincode
   }
   //เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.create(sql, data, async(err, data) => {
@@ -40,12 +44,12 @@ exports.create = async (req, res) => {
 
 exports.fineMentorCanWork = async (req, res) => {
   //คำสั่ง SQL
-  let sql = `SELECT mentor.* , AVG(book.score) AS averageRatting, COUNT(book.score) AS countScore
+  let sql = `SELECT mentor.* , AVG(book.book_score) AS averageRatting, COUNT(book.book_score) AS countScore
   FROM mentor
   LEFT JOIN booking book
-  on book.men_id=mentor.idm
-  WHERE idm AND status_id = "accept"
-  GROUP BY idm`
+  on book.men_id=mentor.men_id
+  WHERE men_statusid = "accept"
+  GROUP BY men_id`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -61,7 +65,7 @@ exports.fineMentorCanWork = async (req, res) => {
 exports.unconfirm = async (req, res) => {
   //คำสั่ง SQL
   let sql = `SELECT mentor.*  FROM mentor
-  WHERE status_id IS NULL`
+  WHERE men_statusid IS NULL`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -84,7 +88,7 @@ exports.findOne = async (req, res) => {
   //คำสั่ง SQL
   let sql = `SELECT mentor.*
   FROM mentor 
-  WHERE idm = ${id}`
+  WHERE men_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -104,7 +108,7 @@ exports.updateprofile1 = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [oldpassword, password, id])) return
   //คำสั่ง SQL
-  let sql = `SELECT password FROM mentor WHERE idm = ${id}`
+  let sql = `SELECT men_password FROM mentor WHERE men_id = ${id}`
   await mysql.get(sql, (err, data) => {
   if (err)
       res.status(err.status).send({
@@ -112,7 +116,7 @@ exports.updateprofile1 = async (req, res) => {
       })
   else if(res.status(200) && data[0] && verifyingHash(oldpassword,data[0].password)){
     delete data[0].password
-      let sql1 = `UPDATE mentor SET password = ? WHERE idm = ?`
+      let sql1 = `UPDATE mentor SET men_password = ? WHERE men_id = ?`
       //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
       let data1 = [hashPassword(password), id]
       //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -143,7 +147,7 @@ exports.updateprofile2 = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [fname, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE mentor SET title = ?, fname=?, lname=? WHERE idm = ?`
+  let sql = `UPDATE mentor SET men_title = ?, men_fname=?, men_lname=? WHERE men_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [title, fname, lname,  id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -163,7 +167,7 @@ exports.updateprofile3 = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [image, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE mentor SET image =? WHERE idm = ?`
+  let sql = `UPDATE mentor SET men_image =? WHERE men_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [image, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -185,7 +189,7 @@ exports.updateprofile4 = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [phone, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE mentor SET phone = ? WHERE idm = ?`
+  let sql = `UPDATE mentor SET men_phone = ? WHERE men_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [
      phone, id]
@@ -206,7 +210,7 @@ exports.updateprofile5 = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [pincode, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE mentor SET tambons = ?, amphures =?, provinces=?, pincode=? WHERE idm = ?`
+  let sql = `UPDATE mentor SET men_tambons = ?, men_amphures =?, men_provinces=?, men_pincode=? WHERE men_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [tambons, amphures, provinces, pincode, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -226,7 +230,7 @@ exports.updateprofile6 = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [birtday, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE mentor SET birtday = ? WHERE idm = ?`
+  let sql = `UPDATE mentor SET men_birtday = ? WHERE men_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [ birtday, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -247,7 +251,7 @@ exports.updateAccept = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [status_id, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE mentor SET status_id = ? WHERE idm = ?`
+  let sql = `UPDATE mentor SET men_statusid = ? WHERE men_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [ status_id, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -266,7 +270,7 @@ exports.deleteOne = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `DELETE FROM mentor WHERE idm = ?`
+  let sql = `DELETE FROM mentor WHERE men_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [id]
   //ลบข้อมูล โดยส่งคำสั่ง SQL และ id เข้าไป
@@ -283,7 +287,7 @@ exports.login = async (req, res) =>{
   const { username, password} = req.body
   if(validate_req(req, res [username, password])) return
 
-  let sql = `SELECT * FROM mentor WHERE username = '${username}'`
+  let sql = `SELECT * FROM mentor WHERE men_username = '${username}'`
 
   await mysql.get(sql, async (err, data) => {
     if (err)

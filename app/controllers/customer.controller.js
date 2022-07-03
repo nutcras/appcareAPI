@@ -5,7 +5,7 @@ const {sign} = require("../models/middleware.models")
 
 exports.create = async (req, res) => {
   //ดึงข้อมูลจาก request
-  const { username, password, title, image, idcard, 
+  const { username, password, title, image, cust_idard, 
     phone, birtday, fname, lname ,address} = req.body
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [username, password])) return
@@ -13,16 +13,16 @@ exports.create = async (req, res) => {
   let sql = `INSERT INTO customer SET ?`
   //ข้อมูลที่จะใส่ ชื่อฟิล : ข้อมูล
   let data = {
-    username: username,
-    password: hashPassword(password),
-    title:title,
-    fname:fname, 
-    lname:lname,
-    image:image, 
-    idcard:idcard, 
-    phone:phone, 
-    birtday:birtday,
-    address:address  
+    cust_username: username,
+    cust_password: hashPassword(password),
+    cust_title:title,
+    cust_fname:fname, 
+    cust_lname:lname,
+    cust_image:image, 
+    cust_cust_idard:cust_idard, 
+    cust_phone:phone, 
+    cust_birtday:birtday,
+    cust_address:address  
   }
   //เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.create(sql, data, async(err, data) => {
@@ -63,7 +63,7 @@ exports.findOne = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `SELECT * FROM customer WHERE idc = ${id}`
+  let sql = `SELECT * FROM customer WHERE cust_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -83,7 +83,7 @@ exports.updateProfile1 = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [oldpassword, password, id])) return
   //คำสั่ง SQL
-  let sql = `SELECT password FROM customer WHERE idc = ${id}`
+  let sql = `SELECT cust_password FROM customer WHERE cust_id = ${id}`
   await mysql.get(sql, (err, data) => {
   if (err)
       res.status(err.status).send({
@@ -91,7 +91,7 @@ exports.updateProfile1 = async (req, res) => {
       })
   else if(res.status(200) && data[0] && verifyingHash(oldpassword,data[0].password)){
     delete data[0].password
-      let sql1 = `UPDATE customer SET password = ? WHERE idc = ?`
+      let sql1 = `UPDATE customer SET cust_password = ? WHERE cust_id = ?`
       //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
       let data1 = [hashPassword(password), id]
       //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -121,7 +121,7 @@ exports.updateProfile2 = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [fname, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE customer SET title = ?, fname=?, lname=? WHERE idc = ?`
+  let sql = `UPDATE customer SET cust_title = ?, cust_fname=?, cust_lname=? WHERE cust_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [title, fname, lname,  id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -141,7 +141,7 @@ exports.updateProfile3 = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [image, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE customer SET image =? WHERE idc = ?`
+  let sql = `UPDATE customer SET cust_image =? WHERE cust_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [image, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -162,7 +162,7 @@ exports.updateProfile4 = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [phone, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE customer SET phone = ? WHERE idc = ?`
+  let sql = `UPDATE customer SET cust_phone = ? WHERE cust_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [
      phone, id]
@@ -183,7 +183,7 @@ exports.updateProfile5 = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [address, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE customer SET address = ? WHERE idc = ?`
+  let sql = `UPDATE customer SET cust_address = ? WHERE cust_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [
      address, id]
@@ -204,7 +204,7 @@ exports.updateprofile6 = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [birtday, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE customer SET birtday = ? WHERE idc = ?`
+  let sql = `UPDATE customer SET cust_birtday = ? WHERE cust_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [ birtday, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -222,7 +222,7 @@ exports.deleteOne = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `DELETE FROM mentor WHERE idc = ?`
+  let sql = `DELETE FROM mentor WHERE cust_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [id]
   //ลบข้อมูล โดยส่งคำสั่ง SQL และ id เข้าไป
@@ -239,14 +239,14 @@ exports.login = async (req, res) =>{
   const { username, password} = req.body
   if(validate_req(req, res [username, password])) return
 
-  let sql = `SELECT * FROM customer WHERE username = '${username}'`
+  let sql = `SELECT * FROM customer WHERE cust_username = '${username}'`
 
   await mysql.get(sql, async (err, data) => {
     if (err)
       res.status(err.status).send({
         message: err.message || 'Some error occurred.',
       })
-    else if (data[0] && verifyingHash(password,data[0].password)){
+    else if (data[0] && verifyingHash(password,data[0].cust_password)){
         data[0].token = await sign({id: data[0].id},'3h')
         delete data[0].password
         res.status(200).json(data[0])

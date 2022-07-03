@@ -3,19 +3,23 @@ const mysql = require('../models/mysql.models')
 
 exports.create = async (req, res) => {
   //ดึงข้อมูลจาก request
-  const {start_time, end_time, result, bstatus, cust_id,  adrb_id, men_id} = req.body
+  const {start_time, end_time, result, bstatus, latilongti, pinhome, tambons, amphures, provinces, cust_id, men_id} = req.body
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [start_time, end_time ])) return
   //คำสั่ง SQL
   let sql = `INSERT INTO booking SET ?`
   //ข้อมูลที่จะใส่ ชื่อฟิล : ข้อมูล
   let data = {
-    start_time:start_time, 
-    end_time:end_time,
-    result: result, 
-    bstatus: bstatus,
+    book_starttime:start_time, 
+    book_endtime:end_time,
+    book_result: result,
+    book_status: bstatus,
+    book_latilongti:latilongti,
+    book_pinhome:pinhome,
+    book_tambons:tambons,
+    book_amphures:amphures,
+    book_provinces:provinces,
     cust_id: cust_id,
-    adrb_id: adrb_id, 
     men_id: men_id
   }
   //เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -30,11 +34,11 @@ exports.create = async (req, res) => {
 
 exports.findAll = async (req, res) => {
   //คำสั่ง SQL
-  let sql = `SELECT book.*, men.title, men.fname, men.lname, men.phone, 
-  men.birtday, men.tambons, men.amphures, men.provinces, men.pincode
+  let sql = `SELECT book.*, men.men_title, men.men_fname, men.men_lname, men.men_phone, 
+  men.men_birtday, men.men_tambons, men.men_amphures, men.men_provinces, men.men_pincode
     FROM booking book
     LEFT JOIN mentor men
-    ON men.idm=book.men_id 
+    ON men.men_id=book.men_id
    `
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
@@ -53,11 +57,11 @@ exports.findReview = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `SELECT idb, cust.fname, score, review 
+  let sql = `SELECT book_id, cust.cust_fname, cust.cust_lname book_score, book_review 
   FROM booking
   LEFT JOIN customer cust
-  ON cust.idc=booking.cust_id
-  WHERE score IS NOT NULL AND men_id = ${id}`
+  ON cust.cust_id=booking.cust_id
+  WHERE book_score IS NOT NULL AND men_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -75,10 +79,11 @@ exports.findOne = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `SELECT book.*, men.fname, men.lname, men.title, men.phone, men.birtday, men.image, men.type FROM booking book
-  LEFT JOIN mentor men
-  ON men.idm=book.men_id
-  WHERE book.idb = ${id}`
+  let sql = `SELECT book.*, men.men_fname, men.men_lname, men.men_title, men.men_phone, men.men_birtday, men.men_image, men.men_type 
+  FROM booking book
+    LEFT JOIN mentor men
+    ON men.men_id=book.men_id
+    WHERE book.book_id =  ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -96,10 +101,10 @@ exports.findGetCust = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [ids, id])) return
   //คำสั่ง SQL
-  let sql = `SELECT book.*, men.fname, men.lname, men.title, men.phone, men.birtday, men.image, men.tambons, men.amphures, men.provinces, men.pincode, men.type FROM booking book
+  let sql = `SELECT book.*, men.men_fname, men.men_lname, men.men_title, men.men_phone, men.men_birtday, men.men_image, men.men_tambons, men.men_amphures, men.men_provinces, men.men_pincode, men.men_type FROM booking book
   LEFT JOIN mentor men
-  ON men.idm=book.men_id
-  WHERE book.bstatus = ${ids} AND book.cust_id = ${id}`
+  ON men.men_id=book.men_id
+  WHERE book.book_status = ${ids} AND book.cust_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -117,10 +122,10 @@ exports.findGetMen = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [ids, id])) return
   //คำสั่ง SQL
-  let sql = `SELECT book.*, cust.title, cust.fname, cust.lname, cust.address, cust.birtday, cust.image FROM booking book
+  let sql = `SELECT book.*, cust.cust_title, cust.cust_fname, cust.cust_lname, cust.cust_address, cust.cust_birtday, cust.cust_image FROM booking book
   LEFT JOIN customer cust
-  ON cust.idc=book.cust_id
-  WHERE book.bstatus = ${ids} AND book.men_id = ${id}`
+  ON cust.cust_id=book.cust_id
+  WHERE book.book_status = ${ids} AND book.men_id = ${id}`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -134,13 +139,13 @@ exports.findGetMen = async (req, res) => {
 
 exports.canclebook = async (req, res) => {
   //ดึงข้อมูลจาก request
-  const {start_time, end_time, bstatus} = req.body
+  const {bstatus} = req.body
   //ดึงข้อมูลจาก params
   const { id } = req.params
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE booking SET bstatus = ? WHERE idb = ?`
+  let sql = `UPDATE booking SET book_status = ? WHERE book_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [bstatus, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -161,7 +166,7 @@ exports.Reviewbook = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE booking SET review =?, score =? WHERE idb = ?`
+  let sql = `UPDATE booking SET book_review =?, book_score =? WHERE book_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [review, score, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
@@ -180,7 +185,7 @@ exports.deleteOne = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `DELETE FROM booking WHERE idb = ?`
+  let sql = `DELETE FROM booking WHERE book_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [id]
   //ลบข้อมูล โดยส่งคำสั่ง SQL และ id เข้าไป
@@ -198,7 +203,7 @@ exports.deleteOneMen = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `DELETE FROM booking WHERE  cust = ?`
+  let sql = `DELETE FROM booking WHERE  cust_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [id]
   //ลบข้อมูล โดยส่งคำสั่ง SQL และ id เข้าไป

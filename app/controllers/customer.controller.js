@@ -248,7 +248,7 @@ exports.login = async (req, res) =>{
       })
     else if (data[0] && verifyingHash(password,data[0].cust_password)){
         data[0].token = await sign({id: data[0].id},'3h')
-        delete data[0].password
+        delete data[0].cust_password
         res.status(200).json(data[0])
     }
     else res.status(204).end()

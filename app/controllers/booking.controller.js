@@ -57,7 +57,7 @@ exports.findReview = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   //คำสั่ง SQL
-  let sql = `SELECT book_id, cust.cust_fname, cust.cust_lname book_score, book_review 
+  let sql = `SELECT book_id, cust.cust_fname, cust.cust_lname, book_score, book_review 
   FROM booking
   LEFT JOIN customer cust
   ON cust.cust_id=booking.cust_id

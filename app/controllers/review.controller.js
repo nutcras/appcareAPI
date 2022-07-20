@@ -10,7 +10,6 @@ exports.create = async (req, res) => {
   let sql = `INSERT INTO review SET ?`
   //ข้อมูลที่จะใส่ ชื่อฟิล : ข้อมูล
   let data = {
-    rev_id:id,
     rev_score:score,
     rev_review:review,
     cust_id:cust_id,

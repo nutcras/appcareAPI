@@ -6,7 +6,7 @@ const {sign} = require("../models/middleware.models")
 exports.create = async (req, res) => {
   //ดึงข้อมูลจาก request
   const { username, password, title, image, cust_idard, 
-    phone, birtday, fname, lname ,address} = req.body
+    phone, fname, lname } = req.body
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [username, password])) return
   //คำสั่ง SQL
@@ -19,10 +19,8 @@ exports.create = async (req, res) => {
     cust_fname:fname, 
     cust_lname:lname,
     cust_image:image, 
-    cust_cust_idard:cust_idard, 
-    cust_phone:phone, 
-    cust_birtday:birtday,
-    cust_address:address  
+    cust_idard:cust_idard, 
+    cust_phone:phone
   }
   //เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.create(sql, data, async(err, data) => {
@@ -175,47 +173,8 @@ exports.updateProfile4 = async (req, res) => {
     else res.status(204).end()
   })
 }
-exports.updateProfile5 = async (req, res) => {
-  //ดึงข้อมูลจาก request
-  const { address } = req.body
-  //ดึงข้อมูลจาก params
-  const { id } = req.params
-  //ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [address, id])) return
-  //คำสั่ง SQL
-  let sql = `UPDATE customer SET cust_address = ? WHERE cust_id = ?`
-  //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  let data = [
-     address, id]
-  //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.update(sql, data, (err, data) => {
-    if (err)
-      res.status(err.status).send({
-        message: err.message || 'Some error occurred.',
-      })
-    else res.status(204).end()
-  })
-}
-exports.updateprofile6 = async (req, res) => {
-  //ดึงข้อมูลจาก request
-  const { birtday } = req.body
-  //ดึงข้อมูลจาก params
-  const { id } = req.params
-  //ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [birtday, id])) return
-  //คำสั่ง SQL
-  let sql = `UPDATE customer SET cust_birtday = ? WHERE cust_id = ?`
-  //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  let data = [ birtday, id]
-  //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.update(sql, data, (err, data) => {
-    if (err)
-      res.status(err.status).send({
-        message: err.message || 'Some error occurred.',
-      })
-    else res.status(204).end()
-  })
-}
+
+
 exports.deleteOne = async (req, res) => {
   //ดึงข้อมูลจาก params
   const { id } = req.params

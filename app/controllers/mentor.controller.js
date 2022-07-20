@@ -27,7 +27,7 @@ exports.create = async (req, res) => {
     men_tambons:tambons,
     men_amphures:amphures,
     men_provinces:provinces,
-    men_pincode:pincode
+    men_status:0
   }
   //เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.create(sql, data, async(err, data) => {
@@ -44,11 +44,11 @@ exports.create = async (req, res) => {
 
 exports.fineMentorCanWork = async (req, res) => {
   //คำสั่ง SQL
-  let sql = `SELECT mentor.* , AVG(book.book_score) AS averageRatting, COUNT(book.book_score) AS countScore
+  let sql = `SELECT mentor.* , AVG(review.rev_score) AS averageRatting, COUNT(review.rev_score) AS countScore
   FROM mentor
-  LEFT JOIN booking book
-  on book.men_id=mentor.men_id
-  WHERE men_statusid = "accept"
+  LEFT JOIN review
+  on review.men_id=mentor.men_id
+  WHERE men_status = 1
   GROUP BY men_id`
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
@@ -65,7 +65,7 @@ exports.fineMentorCanWork = async (req, res) => {
 exports.unconfirm = async (req, res) => {
   //คำสั่ง SQL
   let sql = `SELECT mentor.*  FROM mentor
-  WHERE men_statusid IS NULL`
+  WHERE men_statusid = 0 `
   //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)
@@ -204,15 +204,15 @@ exports.updateprofile4 = async (req, res) => {
 }
 exports.updateprofile5 = async (req, res) => {
   //ดึงข้อมูลจาก request
-  const { tambons, amphures, provinces, pincode } = req.body
+  const { tambons, amphures, provinces } = req.body
   //ดึงข้อมูลจาก params
   const { id } = req.params
   //ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [pincode, id])) return
+  if (validate_req(req, res, [provinces, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE mentor SET men_tambons = ?, men_amphures =?, men_provinces=?, men_pincode=? WHERE men_id = ?`
+  let sql = `UPDATE mentor SET men_tambons = ?, men_amphures =?, men_provinces=?WHERE men_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  let data = [tambons, amphures, provinces, pincode, id]
+  let data = [tambons, amphures, provinces, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.update(sql, data, (err, data) => {
     if (err)
@@ -251,7 +251,7 @@ exports.updateAccept = async (req, res) => {
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [status_id, id])) return
   //คำสั่ง SQL
-  let sql = `UPDATE mentor SET men_statusid = ? WHERE men_id = ?`
+  let sql = `UPDATE mentor SET men_status = ? WHERE men_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   let data = [ status_id, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป

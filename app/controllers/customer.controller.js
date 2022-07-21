@@ -3,6 +3,7 @@ const mysql = require('../models/mysql.models')
 const {verifyingHash, hashPassword} = require('../models/hashing.models')
 const {sign} = require("../models/middleware.models")
 
+
 exports.create = async (req, res) => {
   //ดึงข้อมูลจาก request
   const { username, password, title, image, cust_idard, 
@@ -73,7 +74,7 @@ exports.findOne = async (req, res) => {
   })
 }
 
-exports.updateProfile1 = async (req, res) => {
+exports.updateProfile1 = (req, res) => {
   //ดึงข้อมูลจาก request
   const { oldpassword, password } = req.body
   //ดึงข้อมูลจาก params
@@ -82,7 +83,7 @@ exports.updateProfile1 = async (req, res) => {
   if (validate_req(req, res, [oldpassword, password, id])) return
   //คำสั่ง SQL
   let sql = `SELECT cust_password FROM customer WHERE cust_id = ${id}`
-  await mysql.get(sql, (err, data) => {
+ mysql.get(sql, (err, data) => {
   if (err)
       res.status(err.status).send({
         message: err.message || 'Some error occurred.',
@@ -93,7 +94,6 @@ exports.updateProfile1 = async (req, res) => {
       //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
       let data1 = [hashPassword(password), id]
       //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  
       mysql.update(sql1, data1, (err, data1) => {
         if (err)
           res.status(err.status).send({

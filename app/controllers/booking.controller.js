@@ -96,7 +96,7 @@ exports.findGetMen = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [ids, id])) return
   //คำสั่ง SQL
-  let sql = `SELECT book.*, cust.cust_title, cust.cust_fname, cust.cust_lname, cust.cust_image FROM booking book
+  let sql = `SELECT book.*, cust.cust_title, cust.cust_fname, cust.cust_lname, cust.cust_image, cust.cust_phone FROM booking book
   LEFT JOIN customer cust
   ON cust.cust_id=book.cust_id
   WHERE book.book_status = ${ids} AND book.men_id = ${id}`

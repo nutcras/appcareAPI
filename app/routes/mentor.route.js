@@ -3,12 +3,13 @@ module.exports = (app) => {
   const { verify } = require('../models/middleware.models.js')
   const { create,fineMentorCanWork, unconfirm,findOne,
     updateprofile1, updateprofile2, updateprofile3, updateprofile4, 
-    updateprofile5, updateprofile6, updateAccept,deleteOne ,login} = require('../controllers/mentor.controller')
+    updateprofile5, updateprofile6, updateAccept,deleteOne ,login, fineAvgRate} = require('../controllers/mentor.controller')
 
   router.post('/', create)
 
   router.get('/', verify,fineMentorCanWork)
   router.get('/unconfirm/', verify,unconfirm)
+  router.get('/findAvg',fineAvgRate)
 
 
   router.get('/:id', verify, findOne)

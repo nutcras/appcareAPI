@@ -62,6 +62,23 @@ exports.fineMentorCanWork = async (req, res) => {
   })
 }
 
+exports.fineAvgRate = async (req, res) => {
+  //คำสั่ง SQL
+  let sql = `SELECT  CAST(AVG(men_rate) AS DECIMAL(10,2))AS RateAvg
+  FROM mentor
+  WHERE men_status = 1`
+  //ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.get(sql, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else if (data) { 
+      res.status(200).json(data) }
+    else res.status(204).end()
+  })
+}
+
 exports.unconfirm = async (req, res) => {
   //คำสั่ง SQL
   let sql = `SELECT mentor.*  FROM mentor

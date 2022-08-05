@@ -3,7 +3,7 @@ const mysql = require('../models/mysql.models')
 
 exports.create = async (req, res) => {
   //ดึงข้อมูลจาก request
-  const {start_time, end_time, result, bstatus, latilongti, pinhome, tambons, amphures, provinces, book_type, cust_id, men_id} = req.body
+  const {start_time, end_time, result, bstatus, lat, lng, pinhome, tambons, amphures, provinces, book_type, cust_id, men_id} = req.body
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [start_time, end_time ])) return
   //คำสั่ง SQL
@@ -14,7 +14,8 @@ exports.create = async (req, res) => {
     book_endtime:end_time,
     book_result: result,
     book_status: bstatus,
-    book_latilongti:latilongti,
+    book_lat:lat,
+    book_lng:lng,
     book_pinhome:pinhome,
     book_tambons:tambons,
     book_amphures:amphures,

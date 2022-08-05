@@ -74,7 +74,7 @@ exports.fineAvgRate = async (req, res) => {
         message: err.message || 'Some error occurred.',
       })
     else if (data) { 
-      res.status(200).json(data) }
+      res.status(200).json(data[0]) }
     else res.status(204).end()
   })
 }

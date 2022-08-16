@@ -3,18 +3,13 @@ const mysql = require('../models/mysql.models')
 
 exports.create = async (req, res) => {
   //ดึงข้อมูลจาก request
-  const {score, review, cust_id, men_id} = req.body
+  const {score, review, cust_id, men_id, book_id} = req.body
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [men_id,cust_id])) return
   //คำสั่ง SQL
-  let sql = `INSERT INTO review SET ?`
+  let sql = `INSERT INTO review SET rev_score=?, rev_review=?, cust_id=?, men_id=?`
   //ข้อมูลที่จะใส่ ชื่อฟิล : ข้อมูล
-  let data = {
-    rev_score:score,
-    rev_review:review,
-    cust_id:cust_id,
-    men_id:men_id
-  }
+  let data = [score, review, cust_id, men_id]
   //เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.create(sql, data, async(err, data) => {
 
@@ -23,7 +18,15 @@ exports.create = async (req, res) => {
         message: err.message || 'Some error occurred.',
       })
     else{
-      res.status(201).json(data)
+      let sql1 = 'UPDATE booking SET book_review =? WHERE book_id =?'
+      let data1 = [1, book_id]
+      await mysql.update(sql1, data1, async(err, data1) =>{
+        if (err)
+          res.status(err.status).send({
+            message: err.message || 'Some error occurred.',
+          })
+        else res.status(204).end()
+      })
     }
   })
 }

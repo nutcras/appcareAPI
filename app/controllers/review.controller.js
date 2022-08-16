@@ -1,6 +1,7 @@
 const validate_req = require('../models/validate_req.models')
 const mysql = require('../models/mysql.models')
 
+
 exports.create = async (req, res) => {
   //ดึงข้อมูลจาก request
   const {score, review, cust_id, men_id, book_id} = req.body

@@ -20,7 +20,7 @@ exports.create = async (req, res) => {
     cust_fname:fname, 
     cust_lname:lname,
     cust_image:image, 
-    cust_idard:cust_idard, 
+    cust_idcard:cust_idard, 
     cust_phone:phone
   }
   //เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป

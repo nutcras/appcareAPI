@@ -11,7 +11,7 @@ module.exports = () => {
 
   //หน้าแรกจะแสดงคำยอดฮิต
   app.get('/', (req, res) => {
-    return res.send('<h1>API APP CARE CONNECT!!</h1>')
+    return res.send('<h1>API CAREGIVER CONNECT!!</h1>')
   })
 
   //ดึงโค้ดมาเรียกแล้วส่งตัวแปร app ไปด้วย

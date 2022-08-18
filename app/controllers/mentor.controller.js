@@ -175,7 +175,7 @@ exports.updateprofile2 = async (req, res) => {
     else res.status(204).end()
   })
 }
-exports.updateProfile3 = async (req, res) => {
+exports.updateprofile3 = async (req, res) => {
   //ดึงข้อมูลจาก request
   const file = req.file
   //ดึงข้อมูลจาก params

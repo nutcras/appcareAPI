@@ -130,7 +130,7 @@ exports.updateprofile1 = async (req, res) => {
       res.status(err.status).send({
         message: err.message || 'Some error occurred.',
       })
-  else if(res.status(200) && data[0] && verifyingHash(oldpassword,data[0].password)){
+  else if(res.status(200) && data[0] && verifyingHash(oldpassword,data[0].men_password)){
     delete data[0].password
       let sql1 = `UPDATE mentor SET men_password = ? WHERE men_id = ?`
       //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
@@ -143,7 +143,7 @@ exports.updateprofile1 = async (req, res) => {
             message: err.message || 'Some error occurred.',
           })
           else{
-            res.status(204).json(data1[0])
+            res.status(200).send({data:data1[0],message:'Password ถูกเปลี่ยนแล้ว'})
             
         }
       })

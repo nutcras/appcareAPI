@@ -175,17 +175,18 @@ exports.updateprofile2 = async (req, res) => {
     else res.status(204).end()
   })
 }
-exports.updateprofile3 = async (req, res) => {
+exports.updateProfile3 = async (req, res) => {
   //ดึงข้อมูลจาก request
-  const { image } = req.body
+  const file = req.file
   //ดึงข้อมูลจาก params
   const { id } = req.params
   //ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [image, id])) return
   //คำสั่ง SQL
+  const url = await Upload(file);
   let sql = `UPDATE mentor SET men_image =? WHERE men_id = ?`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  let data = [image, id]
+  let data = [url, id]
   //แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.update(sql, data, (err, data) => {
     if (err)
@@ -195,6 +196,7 @@ exports.updateprofile3 = async (req, res) => {
     else res.status(204).end()
   })
 }
+
 
 exports.updateprofile4 = async (req, res) => {
   //ดึงข้อมูลจาก request

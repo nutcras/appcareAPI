@@ -1,13 +1,13 @@
 module.exports = () => {
   const express = require('express')
   const dotenv = require('dotenv')
-  
+  var cors = require('cors')
   dotenv.config()
   const app = express()
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }))
-
+  app.use(cors())
 
   //หน้าแรกจะแสดงคำยอดฮิต
   app.get('/', (req, res) => {

@@ -137,7 +137,7 @@ exports.updateProfile3 = async (req, res) => {
   //ดึงข้อมูลจาก params
   const { id } = req.params
   //ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [image, id])) return
+  if (validate_req(req, res, [file, id])) return
   //คำสั่ง SQL
   const url = await Upload(file);
   let sql = `UPDATE customer SET cust_image =? WHERE cust_id = ?`

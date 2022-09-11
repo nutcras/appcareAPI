@@ -1,4 +1,6 @@
 module.exports = (app) => {
+  const multer  = require('multer')
+  const upload = multer({ dest: 'uploads/' })
   const router = require('express').Router()
   const { verify } = require('../models/middleware.models.js')
   const { create,findAll,findOne,updateProfile1, updateProfile2, updateProfile3, updateProfile4, deleteOne, login } = require('../controllers/customer.controller')

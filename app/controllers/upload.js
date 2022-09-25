@@ -1,60 +1,59 @@
-// const Bucket = require('../models/firebase')
+const Bucket = require('../models/firebase')
 
+async function Upload(file) {
+  const blob = Bucket.file('/123')
+  const expires = new Date().setDate(new Date().getYear() + 5)
 
-// async function Upload(file) {
-//     const blob = Bucket.file('/123' )
-//     const expires = new Date().setDate(new Date().getYear() + 5)
+  try {
+    console.log(file)
+    const timestamp = Date.now()
+    Bucket.upload({
+      gzip: false,
+      destination: blob,
+      public: true,
+      metadata: {
+        contentType: file.mimetype,
+        metadata: {
+          firebaseStorageDownloadTokens: timestamp,
+        },
+        cacheControl: 'public, max-age=31536000',
+      },
+    })
+    // const stream = blob.createWriteStream({
+    //   metadata: {
+    //     contentType: 'image/jpeg',
+    //     firebaseStorageDownloadTokens: uuid.v4(),
+    //     public: true,
+    //   },
+    // })
+    // stream.end(file.buffer)
 
-//     try {
-//         console.log(file);
-//         const timestamp = Date.now();
-//         Bucket.upload({
-//             gzip: false,
-//             destination: blob,
-//             public: true,
-//             metadata: {
-//                 contentType: file.mimetype,
-//                 metadata: {
-//                     firebaseStorageDownloadTokens: timestamp,
-//                 },
-//                 cacheControl: "public, max-age=31536000",
-//             },
-//         })
-//         // const stream = blob.createWriteStream({
-//         //     metadata: {
-//         //         contentType: 'image/jpeg',
-//         //         firebaseStorageDownloadTokens: uuid.v4(),
-//         //         public: true,
-//         //     }
-//         // })
-//         stream.end(file.buffer)
-        
-//         // const write = blob.createWriteStream({
-//         //     metadata: {
-//         //         contentType: 'image/jpeg'
-//         //     }
-//         // })
+    // const write = blob.createWriteStream({
+    //     metadata: {
+    //         contentType: 'image/jpeg'
+    //     }
+    // })
 
-//         // write.on('finish', () => {
-//         //     console.log('ok');
-//         // })
-//         // write.on('error', function(err) {
-//         //     console.log('err', err);
-//         // });
+    // write.on('finish', () => {
+    //     console.log('ok');
+    // })
+    // write.on('error', function(err) {
+    //     console.log('err', err);
+    // });
 
-//         // write.end(file.buffer)
-        
-//         const URL = await blob.getSignedUrl({
-//             action: 'read',
-//             expires: expires
-//         })
+    // write.end(file.buffer)
 
-//         console.log(URL[0]);
+    const URL = await blob.getSignedUrl({
+      action: 'read',
+      expires,
+    })
 
-//         return URL[0]
-//     } catch (error) {
-//         return error
-//     }
-// }
+    console.log(URL[0])
 
-// module.exports = Upload
+    return URL[0]
+  } catch (error) {
+    return error
+  }
+}
+
+module.exports = Upload

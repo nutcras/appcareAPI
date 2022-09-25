@@ -2,15 +2,15 @@ const mysql = require('mysql') // เรียกใช้งาน MySQL module
 
 // กำหนดการเชื่อมต่อฐานข้อมูล
 const db = mysql.createConnection({
-  //ip ของ sql
+  // ip ของ sql
   host: process.env.DB_HOST,
   // port ของ sql
   port: process.env.DB_PORT,
-  //username ของ sql
+  // username ของ sql
   user: process.env.DB_USER,
-  //password ของ sql
+  // password ของ sql
   password: process.env.DB_PASSWORD,
-  //ชื่อ data ของ sql
+  // ชื่อ data ของ sql
   database: process.env.DB_DATABASE,
 })
 
@@ -19,7 +19,6 @@ db.connect((err) => {
   if (err) {
     // กรณีเกิด error
     console.error('error connecting: ' + err.stack)
-    return
   }
   // console.log('connected db as id ' + db.threadId)
 })

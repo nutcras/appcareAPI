@@ -8,4 +8,5 @@ extends:
 overrides: []
 parserOptions:
   ecmaVersion: latest
-rules: {}
+rules:
+  camelcase: warn

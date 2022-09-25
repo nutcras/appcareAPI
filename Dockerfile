@@ -1,6 +1,6 @@
-FROM node:16.15-alpine
+FROM node:16-alpine
 WORKDIR /app
 ADD . /app
-RUN corepack enable
-RUN yarn install --prod
-CMD [ "yarn", "start" ]
+ENV NODE_ENV production
+RUN npm ci 
+CMD [ "npm", "start" ]

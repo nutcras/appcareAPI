@@ -1,13 +1,21 @@
 module.exports = (app) => {
-  const multer  = require('multer')
-  const upload = multer({ dest: 'uploads/' })
   const router = require('express').Router()
   const { verify } = require('../models/middleware.models.js')
-  const { create,findAll,findOne,updateProfile1, updateProfile2, updateProfile3, updateProfile4, deleteOne, login } = require('../controllers/customer.controller')
+  const {
+    create,
+    findAll,
+    findOne,
+    updateProfile1,
+    updateProfile2,
+    updateProfile3,
+    updateProfile4,
+    deleteOne,
+    login,
+  } = require('../controllers/customer.controller')
 
   router.post('/', create)
 
-  router.get('/',verify ,findAll)
+  router.get('/', verify, findAll)
 
   router.get('/:id', verify, findOne)
 
@@ -16,14 +24,10 @@ module.exports = (app) => {
   router.put('/p3/:id', updateProfile3)
   router.put('/p4/:id', updateProfile4)
 
-
-
   router.delete('/:id', deleteOne)
-  
+
   router.post('/login', login)
 
-
-
-  //เซ็ต PREFIX
+  // เซ็ต PREFIX
   app.use(process.env.PREFIX + '/customer', router)
 }

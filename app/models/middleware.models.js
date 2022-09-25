@@ -1,11 +1,11 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
 const secretkey = process.env.SECRETKEY
 const algorithm = 'HS384'
 
-exports.sign = async(data, expires) => {
+exports.sign = async (data, expires) => {
   try {
     return await jwt.sign(data, secretkey, {
-      algorithm: algorithm,
+      algorithm,
       expiresIn: expires || '3h',
     })
   } catch (e) {
@@ -13,8 +13,8 @@ exports.sign = async(data, expires) => {
   }
 }
 
-exports.verify = async(req, res, next) => {
-  let accessToken = getTokenFrom(req)
+exports.verify = async (req, res, next) => {
+  const accessToken = getTokenFrom(req)
   if (!accessToken) return res.status(403).send('notToken')
 
   try {

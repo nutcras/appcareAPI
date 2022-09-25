@@ -2,7 +2,9 @@ const validate_req = require('../models/validate_req.models')
 const mysql = require('../models/mysql.models')
 const { verifyingHash, hashPassword } = require('../models/hashing.models')
 const { sign } = require('../models/middleware.models')
-const Upload = require('./upload')
+const uploadImage = require('../models/supabase')
+
+
 
 exports.create = async (req, res) => {
   // ดึงข้อมูลจาก request
@@ -199,9 +201,9 @@ exports.updateprofile3 = async (req, res) => {
   // ดึงข้อมูลจาก params
   const { id } = req.params
   // ตรวจสอบความถูกต้อง request
-  // if (validate_req(req, res, [null, id])) return
+  if (validate_req(req, res, [file, id])) return
   // คำสั่ง SQL
-  const url = await Upload(file)
+  const url = await uploadImage(file)
   const sql = `UPDATE mentor SET men_image =? WHERE men_id = ?`
   // ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   const data = [url, id]

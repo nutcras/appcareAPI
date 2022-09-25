@@ -1,6 +1,9 @@
 module.exports = (app) => {
   const router = require('express').Router()
   const { verify } = require('../models/middleware.models.js')
+  const multer  = require('multer')
+  const upload = multer()
+
   const {
     create,
     findAll,
@@ -21,7 +24,7 @@ module.exports = (app) => {
 
   router.put('/p1/:id', updateProfile1)
   router.put('/p2/:id', updateProfile2)
-  router.put('/p3/:id', updateProfile3)
+  router.put('/p3/:id',  upload.single('photo'), updateProfile3)
   router.put('/p4/:id', updateProfile4)
 
   router.delete('/:id', deleteOne)

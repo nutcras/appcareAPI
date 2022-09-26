@@ -143,8 +143,9 @@ exports.updateProfile3 = async (req, res) => {
   if (validate_req(req, res, [id])) return
   // คำสั่ง SQL
   const url = await uploadImage(file)
+  console.log(url);
 
-  let sql = `UPDATE customer SET cust_image = ${url} WHERE cust_id = ${id}`
+  let sql = `UPDATE customer SET cust_image = '${url}' WHERE cust_id = ${id}`
   //ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
 
   await mysql.update(sql, (err) => {

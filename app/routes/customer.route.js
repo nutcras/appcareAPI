@@ -27,7 +27,7 @@ module.exports = (app) => {
   router.put('/p2/:id', updateProfile2)
   router.put('/p3/:id',  upload.single('photo'), updateProfile3)
   router.put('/p4/:id', updateProfile4)
-  router.put('/p5/:id', updateProfile5)
+
 
   router.delete('/:id', deleteOne)
 

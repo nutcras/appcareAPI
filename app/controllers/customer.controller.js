@@ -185,7 +185,7 @@ exports.updateProfile5 = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [birtday, id])) return
   // คำสั่ง SQL
-  const sql = `UPDATE customer SET men_birtday = ? WHERE men_id = ?`
+  const sql = `UPDATE customer SET cust_birtday = ? WHERE cust_id = ?`
   // ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   const data = [birtday, id]
   // แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป

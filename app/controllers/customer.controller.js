@@ -177,7 +177,7 @@ exports.updateProfile4 = async (req, res) => {
   })
 }
 
-exports.updateprofile5 = async (req, res) => {
+exports.updateProfile5 = async (req, res) => {
   // ดึงข้อมูลจาก request
   const { birtday } = req.body
   // ดึงข้อมูลจาก params

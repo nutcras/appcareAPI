@@ -12,7 +12,6 @@ module.exports = (app) => {
     updateProfile2,
     updateProfile3,
     updateProfile4,
-    updateProfile5,
     deleteOne,
     login,
   } = require('../controllers/customer.controller')

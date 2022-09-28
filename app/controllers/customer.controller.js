@@ -177,6 +177,27 @@ exports.updateProfile4 = async (req, res) => {
   })
 }
 
+exports.updateprofile5 = async (req, res) => {
+  // ดึงข้อมูลจาก request
+  const { birtday } = req.body
+  // ดึงข้อมูลจาก params
+  const { id } = req.params
+  // ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [birtday, id])) return
+  // คำสั่ง SQL
+  const sql = `UPDATE customer SET men_birtday = ? WHERE men_id = ?`
+  // ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
+  const data = [birtday, id]
+  // แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.update(sql, data, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else res.status(204).end()
+  })
+}
+
 exports.deleteOne = async (req, res) => {
   // ดึงข้อมูลจาก params
   const { id } = req.params

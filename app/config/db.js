@@ -12,6 +12,7 @@ const db = mysql.createConnection({
   password: process.env.DB_PASSWORD,
   // ชื่อ data ของ sql
   database: process.env.DB_DATABASE,
+  acquireTimeout: 1000000
 })
 
 // ทำการเชื่อมต่อกับฐานข้อมูล
@@ -20,6 +21,12 @@ db.connect((err) => {
     // กรณีเกิด error
     console.error('error connecting: ' + err.stack)
   }
+  if('close', function(e) {
+    client.setTimeout(10000, function() {
+        client.connect(HOST_PORT, HOST_IP);
+    })
+});
+
   // console.log('connected db as id ' + db.threadId)
 })
 // ปิดการเชื่อมต่อฐานข้อมูล MySQL ในที่นี้เราจะไม่ให้ทำงาน

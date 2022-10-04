@@ -297,6 +297,26 @@ exports.updateprofile7 = async (req, res) => {
     else res.status(204).end()
   })
 }
+exports.updateWorkRate = async (req, res) => {
+  // ดึงข้อมูลจาก request
+  const { rate } = req.body
+  // ดึงข้อมูลจาก params
+  const { id } = req.params
+  // ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [rate, id])) return
+  // คำสั่ง SQL
+  const sql = `UPDATE mentor SET men_rate = ? WHERE men_id = ?`
+  // ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
+  const data = [rate, id]
+  // แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.update(sql, data, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else res.status(204).end()
+  })
+}
 
 exports.updateAccept = async (req, res) => {
   // ดึงข้อมูลจาก request

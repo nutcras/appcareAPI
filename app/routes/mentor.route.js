@@ -16,6 +16,7 @@ module.exports = (app) => {
     updateprofile5,
     updateprofile6,
     updateprofile7,
+    updateWorkRate,
     updateAccept,
     deleteOne,
     login,
@@ -37,6 +38,7 @@ module.exports = (app) => {
   router.put('/p5/:id', updateprofile5)
   router.put('/p6/:id', updateprofile6)
   router.put('/p7/:id', updateprofile7)
+  router.put('/workRate/:id', updateWorkRate)
   router.put('/upAccept/:id', updateAccept)
 
   router.delete('/:id', deleteOne)

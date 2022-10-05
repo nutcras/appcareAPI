@@ -8,12 +8,13 @@ const uploadImage = require('../models/supabase')
 
 exports.create = async (req, res) => {
   // ดึงข้อมูลจาก request
+  const file = req.file
+
   const {
     username,
     password,
     rate,
     title,
-    image,
     idcard,
     phone,
     birtday,
@@ -25,6 +26,8 @@ exports.create = async (req, res) => {
     provinces,
   } = req.body
   // ตรวจสอบความถูกต้อง request
+  const url = await uploadImage(file)
+
   if (validate_req(req, res, [username, password])) return
   // คำสั่ง SQL
   const sql = `INSERT INTO mentor SET ?`
@@ -37,7 +40,7 @@ exports.create = async (req, res) => {
     men_title: title,
     men_fname: fname,
     men_lname: lname,
-    men_image: image,
+    men_image: url,
     men_idcard: idcard,
     men_phone: phone,
     men_birtday: birtday,
@@ -98,7 +101,7 @@ exports.fineAvgRate = async (req, res) => {
 exports.unconfirm = async (req, res) => {
   // คำสั่ง SQL
   const sql = `SELECT mentor.*  FROM mentor
-  WHERE men_statusid = 0 `
+  WHERE men_status = 0 `
   // ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)

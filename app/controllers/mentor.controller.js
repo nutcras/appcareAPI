@@ -8,7 +8,6 @@ const uploadImage = require('../models/supabase')
 
 exports.create = async (req, res) => {
   // ดึงข้อมูลจาก request
-  const file = req.file
 
   const {
     username,
@@ -26,7 +25,6 @@ exports.create = async (req, res) => {
     provinces,
   } = req.body
   // ตรวจสอบความถูกต้อง request
-  const url = await uploadImage(file)
 
   if (validate_req(req, res, [username, password])) return
   // คำสั่ง SQL
@@ -40,7 +38,6 @@ exports.create = async (req, res) => {
     men_title: title,
     men_fname: fname,
     men_lname: lname,
-    men_image: url,
     men_idcard: idcard,
     men_phone: phone,
     men_birtday: birtday,

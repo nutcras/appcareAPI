@@ -6,6 +6,7 @@ module.exports = (app) => {
     findAll,
     findOne,
     update,
+    updateName,
     updateAccountMentor,
     deleteOne,
     login,
@@ -18,6 +19,7 @@ module.exports = (app) => {
   router.get('/:id', findOne)
 
   router.put('/:id', update)
+  router.put('/nameupdate/:id', updateName)
 
   router.put('/men/:id', updateAccountMentor)
 

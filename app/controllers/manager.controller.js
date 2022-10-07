@@ -87,6 +87,26 @@ exports.update = async (req, res) => {
     else res.status(204).end()
   })
 }
+exports.updateName = async (req, res) => {
+  // ดึงข้อมูลจาก request
+  const { fname,lname } = req.body
+  // ดึงข้อมูลจาก params
+  const { id } = req.params
+  // ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [fname, id])) return
+  // คำสั่ง SQL
+  const sql = `UPDATE manager SET manager_fname = ?,manager_lname =? WHERE manager_id = ?`
+  // ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
+  const data = [fname, lname, id]
+  // แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.update(sql, data, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else res.status(204).end()
+  })
+}
 exports.updateAccountMentor = async (req, res) => {
   // ดึงข้อมูลจาก request
   const { status } = req.body

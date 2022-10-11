@@ -47,10 +47,6 @@ exports.findAll = async (req, res) => {
         message: err.message || 'Some error occurred.',
       })
     else if (data) {
-      // for (const key in data) {
-      //     delete data[key].adrm_id
-      //     delete data[key].type_id
-      // }
       res.status(200).json(data)
     } else res.status(204).end()
   })

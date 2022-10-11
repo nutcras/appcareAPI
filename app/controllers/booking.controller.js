@@ -5,8 +5,10 @@ const uploadImage = require('../models/supabase')
 exports.create = async (req, res) => {
   // ดึงข้อมูลจาก request
   const {
-    start_time,
-    end_time,
+    startdate,
+    starttime,
+    enddate,
+    endtime,
     result,
     bstatus,
     lat,
@@ -20,13 +22,15 @@ exports.create = async (req, res) => {
     men_id,
   } = req.body
   // ตรวจสอบความถูกต้อง request
-  if (validate_req(req, res, [start_time, end_time])) return
+  if (validate_req(req, res, [starttime, endtime])) return
   // คำสั่ง SQL
   const sql = `INSERT INTO booking SET ?`
   // ข้อมูลที่จะใส่ ชื่อฟิล : ข้อมูล
   const data = {
-    book_starttime: start_time,
-    book_endtime: end_time,
+    book_starttime: starttime,
+    book_startdate:startdate,
+    book_endtime: endtime,
+    book_enddate:enddate,
     book_result: result,
     book_status: bstatus,
     book_lat: lat,
@@ -154,14 +158,13 @@ exports.updateBooking = async (req, res) => {
   // ดึงข้อมูลจาก params
   const { id } = req.params
   // ตรวจสอบความถูกต้อง request
-  // if (validate_req(req, res, [null, id])) return
   // คำสั่ง SQL
   const url = await uploadImage(file)
   const sql = `UPDATE booking SET book_images =? WHERE book_id = ?`
   // ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   const data = [url, id]
   // แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.update(sql, data, (err, data) => {
+  await mysql.update(sql, data, (err) => {
     if (err)
       res.status(err.status).send({
         message: err.message || 'Some error occurred.',
@@ -180,7 +183,7 @@ exports.deleteOne = async (req, res) => {
   // ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   const data = [id]
   // ลบข้อมูล โดยส่งคำสั่ง SQL และ id เข้าไป
-  await mysql.delete(sql, data, (err, data) => {
+  await mysql.delete(sql, data, (err) => {
     if (err)
       res.status(err.status).send({
         message: err.message || 'Some error occurred.',

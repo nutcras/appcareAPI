@@ -363,14 +363,14 @@ exports.login = async (req, res) => {
   if (validate_req(req, res[(username, password)])) return
 
   const sql = `SELECT * FROM mentor WHERE men_username = '${username}'`
-
+cd
   await mysql.get(sql, async (err, data) => {
     if (err)
       res.status(err.status).send({
         message: err.message || 'Some error occurred.',
       })
     else if (data[0] && verifyingHash(password, data[0].men_password)) {
-      data[0].token = await sign({ id: data[0].men_id }, '3h')
+      data[0].token = await sign({ id: data[0].men_id }, '2d')
       delete data[0].men_password
       res.status(200).json(data[0])
     } else res.status(204).end()

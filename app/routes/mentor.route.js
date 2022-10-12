@@ -43,7 +43,7 @@ module.exports = (app) => {
 
   router.delete('/:id', deleteOne)
 
-  router.post('/login/', login)
+  router.post('/login', login)
 
   // เซ็ต PREFIX
   app.use(process.env.PREFIX + '/mentor', router)

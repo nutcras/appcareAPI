@@ -39,10 +39,10 @@ exports.create = async (req, res) => {
     book_tambons: tambons,
     book_amphures: amphures,
     book_provinces: provinces,
-    cust_id,
-    men_id,
+    cust_id:cust_id,
+    men_id:men_id,
     book_review: 0,
-    book_type,
+    book_type:book_type,
   }
   // เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.create(sql, data, (err, data) => {

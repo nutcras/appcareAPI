@@ -6,7 +6,7 @@ exports.sign = async (data, expires) => {
   try {
     return await jwt.sign(data, secretkey, {
       algorithm,
-      expiresIn: expires || '2d',
+      expiresIn: expires || '7h',
     })
   } catch (e) {
     return null

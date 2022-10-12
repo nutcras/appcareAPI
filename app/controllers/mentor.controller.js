@@ -370,7 +370,7 @@ cd
         message: err.message || 'Some error occurred.',
       })
     else if (data[0] && verifyingHash(password, data[0].men_password)) {
-      data[0].token = await sign({ id: data[0].men_id }, '2d')
+      data[0].token = await sign({ id: data[0].men_id }, '7h')
       delete data[0].men_password
       res.status(200).json(data[0])
     } else res.status(204).end()

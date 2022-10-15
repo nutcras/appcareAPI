@@ -140,7 +140,7 @@ exports.finddatework = async (req, res) => {
   FROM booking book
   LEFT JOIN mentor men 
   ON book.men_id=men.men_id
-  WHERE men.men_id = ${id}`
+  WHERE men.men_id = ${id} and book.book_status = 1`
   // ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)

@@ -8,7 +8,6 @@ const uploadImage = require('../models/supabase')
 
 exports.create = async (req, res) => {
   // ดึงข้อมูลจาก request
-
   const {
     username,
     password,
@@ -120,6 +119,28 @@ exports.findOne = async (req, res) => {
   const sql = `SELECT mentor.*
   FROM mentor 
   WHERE men_id = ${id}`
+  // ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.get(sql, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else if (data[0]) res.status(200).json(data[0])
+    else res.status(204).end()
+  })
+}
+
+exports.finddatework = async (req, res) => {
+  // ดึงข้อมูลจาก params
+  const { id } = req.params
+  // ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [id])) return
+  // คำสั่ง SQL
+  const sql = `SELECT book.book_startdate, book.book_enddate, book.book_starttime, book.book_endtime, book.men_id 
+  FROM booking book
+  LEFT JOIN mentor men 
+  ON book.men_id=men.men_id
+  WHERE men.men_id = ${id}`
   // ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)

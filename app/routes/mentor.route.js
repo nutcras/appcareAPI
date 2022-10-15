@@ -8,7 +8,7 @@ module.exports = (app) => {
     create,
     fineMentorCanWork,
     unconfirm,
-    findOne,
+    findOne,finddatework,
     updateprofile1,
     updateprofile2,
     updateprofile3,
@@ -30,6 +30,7 @@ module.exports = (app) => {
   router.get('/findAvg', fineAvgRate)
 
   router.get('/:id', verify, findOne)
+  router.get('datework/:id', verify, finddatework)
 
   router.put('/p1/:id', updateprofile1)
   router.put('/p2/:id', updateprofile2)

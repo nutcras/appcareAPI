@@ -7,7 +7,7 @@ const uploadImageAvatar = require('../models/supabase')
 
 exports.create = async (req, res) => {
   // ดึงข้อมูลจาก request
-  const { username, password, title, image, cust_idard, phone, fname, lname } =
+  const { username, password, title, image, phone, fname, lname } =
     req.body
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [username, password])) return
@@ -21,7 +21,6 @@ exports.create = async (req, res) => {
     cust_fname: fname,
     cust_lname: lname,
     cust_image: image,
-    cust_idcard: cust_idard,
     cust_phone: phone,
   }
   // เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป

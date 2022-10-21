@@ -17,5 +17,6 @@ exports.uploadImageBook = async (image) =>{
         .upload(Math.random().toString(), image.buffer, { contentType: image.mimetype})
   
   console.log(error);  
+  console.log(data);
   return "https://qtzmtysieievsvunzhbe.supabase.co/storage/v1/object/public/"+data.Key
 }

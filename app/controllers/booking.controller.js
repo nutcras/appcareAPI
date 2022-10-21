@@ -1,7 +1,7 @@
 const validate_req = require('../models/validate_req.models')
 const mysql = require('../models/mysql.models')
 const uploadImageAvatar = require('../models/supabase')
-const uploadImageBook = require('../models/supabase')
+const {uploadImageBook} = require('../models/supabase')
 
 exports.create = async (req, res) => {
   // ดึงข้อมูลจาก request
@@ -42,7 +42,7 @@ exports.create = async (req, res) => {
     book_tambons: tambons,
     book_amphures: amphures,
     book_provinces: provinces,
-    book_image:url,
+    book_images:url,
     cust_id:cust_id,
     men_id:men_id,
     book_review: 0,

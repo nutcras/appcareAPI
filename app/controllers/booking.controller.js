@@ -1,6 +1,7 @@
 const validate_req = require('../models/validate_req.models')
 const mysql = require('../models/mysql.models')
-const uploadImage = require('../models/supabase')
+const uploadImageAvatar = require('../models/supabase')
+const uploadImageBook = require('../models/supabase')
 
 exports.create = async (req, res) => {
   // ดึงข้อมูลจาก request
@@ -21,6 +22,8 @@ exports.create = async (req, res) => {
     cust_id,
     men_id,
   } = req.body
+  const file = req.file
+  const url =await uploadImageBook(file)
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [starttime, endtime])) return
   // คำสั่ง SQL
@@ -39,6 +42,7 @@ exports.create = async (req, res) => {
     book_tambons: tambons,
     book_amphures: amphures,
     book_provinces: provinces,
+    book_image:url,
     cust_id:cust_id,
     men_id:men_id,
     book_review: 0,
@@ -159,7 +163,7 @@ exports.updateBooking = async (req, res) => {
   const { id } = req.params
   // ตรวจสอบความถูกต้อง request
   // คำสั่ง SQL
-  const url = await uploadImage(file)
+  const url = await uploadImageAvatar(file)
   const sql = `UPDATE booking SET book_images =? WHERE book_id = ?`
   // ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   const data = [url, id]

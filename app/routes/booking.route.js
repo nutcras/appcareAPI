@@ -14,7 +14,7 @@ module.exports = (app) => {
     deleteOne,
   } = require('../controllers/booking.controller')
 
-  router.post('/', create)
+  router.post('/', upload.single('photo'),  create)
 
   router.get('/', findAll)
 

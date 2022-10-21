@@ -2,7 +2,7 @@ const validate_req = require('../models/validate_req.models')
 const mysql = require('../models/mysql.models')
 const { verifyingHash, hashPassword } = require('../models/hashing.models')
 const { sign } = require('../models/middleware.models')
-const uploadImage = require('../models/supabase')
+const uploadImageAvatar = require('../models/supabase')
 
 
 exports.create = async (req, res) => {
@@ -144,7 +144,7 @@ exports.updateProfile3 = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   // คำสั่ง SQL
-  const url = await uploadImage(file)
+  const url = await uploadImageAvatar(file)
   console.log(url);
 
   let sql = `UPDATE customer SET cust_image = '${url}' WHERE cust_id = ${id}`

@@ -2,7 +2,7 @@ const validate_req = require('../models/validate_req.models')
 const mysql = require('../models/mysql.models')
 const { verifyingHash, hashPassword } = require('../models/hashing.models')
 const { sign } = require('../models/middleware.models')
-const uploadImage = require('../models/supabase')
+const {uploadImageAvatar} = require('../models/supabase')
 
 
 
@@ -23,6 +23,8 @@ exports.create = async (req, res) => {
     amphures,
     provinces,
   } = req.body
+  const file = req.file
+  const url =await uploadImageAvatar(file)
   // ตรวจสอบความถูกต้อง request
 
   if (validate_req(req, res, [username, password])) return
@@ -44,7 +46,9 @@ exports.create = async (req, res) => {
     men_amphures: amphures,
     men_provinces: provinces,
     men_status: 0,
+    men_image: url
   }
+  console.log(url);
   // เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.create(sql, data, async (err, data) => {
     if (err)
@@ -224,7 +228,7 @@ exports.updateprofile3 = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [file, id])) return
   // คำสั่ง SQL
-  const url = await uploadImage(file)
+  const url = await uploadImageAvatar(file)
   const sql = `UPDATE mentor SET men_image =? WHERE men_id = ?`
   // ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   const data = [url, id]

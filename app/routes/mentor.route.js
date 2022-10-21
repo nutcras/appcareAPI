@@ -23,7 +23,7 @@ module.exports = (app) => {
     fineAvgRate,
   } = require('../controllers/mentor.controller')
 
-  router.post('/', create)
+  router.post('/',upload.single('photo'), create)
 
   router.get('/', verify, fineMentorCanWork)
   router.get('/unconfirm/', verify, unconfirm)

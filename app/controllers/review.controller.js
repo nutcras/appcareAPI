@@ -17,8 +17,8 @@ exports.create = async (req, res) => {
         message: err.message || 'Some error occurred.',
       })
     else {
-      const sql1 = 'UPDATE booking SET book_review =?,date_review=? WHERE book_id =?'
-      const data1 = [1, datereview, book_id]
+      const sql1 = 'UPDATE booking SET book_review =?, WHERE book_id =?'
+      const data1 = [1,  book_id]
       await mysql.update(sql1, data1, async (err, data1) => {
         if (err)
           res.status(err.status).send({

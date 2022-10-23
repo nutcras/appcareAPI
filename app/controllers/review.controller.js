@@ -7,7 +7,7 @@ exports.create = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [men_id, cust_id])) return
   // คำสั่ง SQL
-  const sql = `INSERT INTO review SET rev_score=?, rev_review=?, cust_id=?, men_id=?, date_review`
+  const sql = `INSERT INTO review SET rev_score=?, rev_review=?, cust_id=?, men_id=?, date_review=?`
   // ข้อมูลที่จะใส่ ชื่อฟิล : ข้อมูล
   const data = [score, review, cust_id, men_id, datereview]
   // เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป

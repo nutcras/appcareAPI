@@ -138,17 +138,17 @@ exports.findGetMen = async (req, res) => {
 
 exports.canclebook = async (req, res) => {
   // ดึงข้อมูลจาก request
-  const { bstatus } = req.body
+  const { bstatus, content } = req.body
   // ดึงข้อมูลจาก params
   const { id } = req.params
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   // คำสั่ง SQL
-  const sql = `UPDATE booking SET book_status = ? WHERE book_id = ?`
+  const sql = `UPDATE booking SET book_status = ?,book_cancle=? WHERE book_id = ?`
   // ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  const data = [bstatus, id]
+  const data = [bstatus, content, id]
   // แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.update(sql, data, (err, data) => {
+  await mysql.update(sql, data, (err) => {
     if (err)
       res.status(err.status).send({
         message: err.message || 'Some error occurred.',

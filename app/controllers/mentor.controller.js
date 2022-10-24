@@ -48,7 +48,6 @@ exports.create = async (req, res) => {
     men_status: 0,
     men_image: url
   }
-  console.log(url);
   // เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.create(sql, data, async (err, data) => {
     if (err)

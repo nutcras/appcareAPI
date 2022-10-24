@@ -2,13 +2,15 @@ const validate_req = require('../models/validate_req.models')
 const mysql = require('../models/mysql.models')
 const { verifyingHash, hashPassword } = require('../models/hashing.models')
 const { sign } = require('../models/middleware.models')
-const uploadImageAvatar = require('../models/supabase')
+const {uploadImageAvatar} = require('../models/supabase')
 
 
 exports.create = async (req, res) => {
   // ดึงข้อมูลจาก request
-  const { username, password, title, image, phone, fname, lname } =
+  const { username, password, title, image, phone, fname, lname} =
     req.body
+    const file = req.file
+    const url = await uploadImageAvatar(file)
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [username, password])) return
   // คำสั่ง SQL
@@ -22,6 +24,7 @@ exports.create = async (req, res) => {
     cust_lname: lname,
     cust_image: image,
     cust_phone: phone,
+    cust_image:url
   }
   // เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.create(sql, data, async (err, data) => {

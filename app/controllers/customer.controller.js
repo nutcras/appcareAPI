@@ -9,8 +9,6 @@ exports.create = async (req, res) => {
   // ดึงข้อมูลจาก request
   const { username, password, title, image, phone, fname, lname} =
     req.body
-    const file = req.file
-    const url = await uploadImageAvatar(file)
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [username, password])) return
   // คำสั่ง SQL
@@ -24,7 +22,6 @@ exports.create = async (req, res) => {
     cust_lname: lname,
     cust_image: image,
     cust_phone: phone,
-    cust_image:url
   }
   // เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.create(sql, data, async (err, data) => {

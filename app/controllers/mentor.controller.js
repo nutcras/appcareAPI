@@ -24,7 +24,7 @@ exports.create = async (req, res) => {
     provinces,
   } = req.body
   const file = req.file
-  const url =await uploadImageAvatar(file)
+  const url = await uploadImageAvatar(file)
   // ตรวจสอบความถูกต้อง request
 
   if (validate_req(req, res, [username, password])) return
@@ -119,9 +119,11 @@ exports.findOne = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   // คำสั่ง SQL
-  const sql = `SELECT mentor.*
+  const sql = `SELECT mentor.*, AVG(review.rev_score) AS averageRatting, COUNT(review.rev_score) AS countScore
   FROM mentor 
-  WHERE men_id = ${id}`
+  LEFT JOIN review
+  on review.men_id=mentor.men_id
+  WHERE mentor.men_id = ${id}`
   // ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)

@@ -111,7 +111,7 @@ exports.updateAccountMentor = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [status, id])) return
   // คำสั่ง SQL
-  const sql = `UPDATE mentor SET men_statusid = ?, men_note=?, men_date=? WHERE men_id = ?`
+  const sql = `UPDATE mentor SET men_status = ?, men_note=?, men_dateregis=? WHERE men_id = ?`
   // ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
   const data = [status, note, date, id]
   // แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป

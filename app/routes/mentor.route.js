@@ -40,7 +40,6 @@ module.exports = (app) => {
   router.put('/p6/:id', updateprofile6)
   router.put('/p7/:id', updateprofile7)
   router.put('/workRate/:id', updateWorkRate)
-  router.put('/upAccept/:id', updateAccept)
 
   router.delete('/:id', deleteOne)
 

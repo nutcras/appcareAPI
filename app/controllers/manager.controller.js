@@ -24,7 +24,7 @@ exports.create = async (req, res) => {
         message: err.message || 'Some error occurred.',
       })
     else {
-      data.token = await sign({ id: data.id }, '1d')
+      data.token = await sign({ id: data.id }, '3h')
       res.status(201).json(data)
     }
   })
@@ -40,10 +40,6 @@ exports.findAll = async (req, res) => {
         message: err.message || 'Some error occurred.',
       })
     else if (data) {
-      // for (const key in data) {
-      //     delete data[key].adrm_id
-      //     delete data[key].type_id
-      // }
       res.status(200).json(data)
     } else res.status(204).end()
   })
@@ -109,17 +105,17 @@ exports.updateName = async (req, res) => {
 }
 exports.updateAccountMentor = async (req, res) => {
   // ดึงข้อมูลจาก request
-  const { status } = req.body
+  const { status, note, date} = req.body
   // ดึงข้อมูลจาก params
   const { id } = req.params
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [status, id])) return
   // คำสั่ง SQL
-  const sql = `UPDATE mentor SET men_statusid = ? WHERE men_id = ?`
+  const sql = `UPDATE mentor SET men_statusid = ?, men_note=?, men_date=? WHERE men_id = ?`
   // ข้อมูลที่จะแก้ไขโดยเรียงตามลำดับ เครื่องหมาย ?
-  const data = [status, id]
+  const data = [status, note, date, id]
   // แก้ไขข้อมูล โดยส่งคำสั่ง SQL เข้าไป
-  await mysql.update(sql, data, (err, data) => {
+  await mysql.update(sql, data, (err) => {
     if (err)
       res.status(err.status).send({
         message: err.message || 'Some error occurred.',
@@ -159,7 +155,7 @@ exports.login = async (req, res) => {
         message: err.message || 'Some error occurred.',
       })
     else if (data[0] && verifyingHash(password, data[0].manager_password)) {
-      data[0].token = await sign({ id: data[0].manager_id }, '2d')
+      data[0].token = await sign({ id: data[0].manager_id }, '3h')
       delete data[0].manager_password
       res.status(200).json(data[0])
     } else res.status(204).end()

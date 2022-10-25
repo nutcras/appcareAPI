@@ -22,6 +22,7 @@ exports.create = async (req, res) => {
     tambons,
     amphures,
     provinces,
+    dateregis
   } = req.body
   const file = req.file
   const url = await uploadImageAvatar(file)
@@ -46,7 +47,8 @@ exports.create = async (req, res) => {
     men_amphures: amphures,
     men_provinces: provinces,
     men_status: 0,
-    men_image: url
+    men_image: url,
+    men_dateregis:dateregis
   }
   // เพิ่มข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.create(sql, data, async (err, data) => {

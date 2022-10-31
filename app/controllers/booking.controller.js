@@ -106,7 +106,7 @@ exports.findDateBeforeCreate = async (req, res) => {
       res.status(err.status).send({
         message: err.message || 'Some error occurred.',
       })
-    else if (data) res.status(200).json(data[0])
+    else if (data) res.status(200).json(data)
     else res.status(204).end()
   })
 }

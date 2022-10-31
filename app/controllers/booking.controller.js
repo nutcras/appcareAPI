@@ -99,7 +99,7 @@ exports.findDateBeforeCreate = async (req, res) => {
   // ตรวจสอบความถูกต้อง request
   if (validate_req(req, res, [id])) return
   // คำสั่ง SQL
-  const sql = `SELECT  COUNT(book_id) FROM booking WHERE men_id = ${id} AND book_status = 1 AND book_startdate BETWEEN '${startdate}' AND '${enddate}'`
+  const sql = `SELECT  COUNT(book_id) AS hasbook FROM booking WHERE men_id = ${id} AND book_status = 1 AND book_startdate BETWEEN '${startdate}' AND '${enddate}'`
   // ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
   await mysql.get(sql, (err, data) => {
     if (err)

@@ -12,13 +12,15 @@ module.exports = (app) => {
     canclebook,
     updateBooking,
     deleteOne,
+    findDateBeforeCreate
   } = require('../controllers/booking.controller')
 
   router.post('/', upload.single('photo'),  create)
 
   router.get('/', findAll)
 
-  router.get('/:id', findOne)
+  router.get('/fone/:id', findOne)
+  router.get('/fd/:startdate/:enddate/:id', findDateBeforeCreate)
   router.get('/men/:ids/:id', findGetCust)
   router.get('/cust/:ids/:id', findGetMen)
 

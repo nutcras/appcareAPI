@@ -20,7 +20,7 @@ exports.create = async (req, res) => {
     provinces,
     book_type,
     cust_id,
-    men_id,
+    men_id
   } = req.body
   const file = req.file
   const url =await uploadImageBook(file)
@@ -90,6 +90,23 @@ exports.findOne = async (req, res) => {
         message: err.message || 'Some error occurred.',
       })
     else if (data) res.status(200).json(data)
+    else res.status(204).end()
+  })
+}
+exports.findDateBeforeCreate = async (req, res) => {
+  // ดึงข้อมูลจาก params
+  const { startdate, enddate, id } = req.params
+  // ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [id])) return
+  // คำสั่ง SQL
+  const sql = `SELECT  COUNT(book_id) FROM booking WHERE men_id = ${id} AND book_status = 1 AND book_startdate BETWEEN '${startdate}' AND '${enddate}'`
+  // ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.get(sql, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else if (data) res.status(200).json(data[0])
     else res.status(204).end()
   })
 }

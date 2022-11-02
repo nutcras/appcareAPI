@@ -5,6 +5,23 @@ const { sign } = require('../models/middleware.models')
 const {uploadImageAvatar} = require('../models/supabase')
 
 
+exports.checkusername = async (req, res) => {
+  // ดึงข้อมูลจาก params
+  const { username } = req.params
+  // ตรวจสอบความถูกต้อง request
+  if (validate_req(req, res, [username])) return
+  // คำสั่ง SQL
+  const sql = `SELECT COUNT(cust_id) as hasuser FROM customer WHERE cust_username = '${username}' `
+  // ดึงข้อมูล โดยส่งคำสั่ง SQL เข้าไป
+  await mysql.get(sql, (err, data) => {
+    if (err)
+      res.status(err.status).send({
+        message: err.message || 'Some error occurred.',
+      })
+    else if (data[0]) res.status(200).json(data[0])
+    else res.status(204).end()
+  })
+}
 exports.create = async (req, res) => {
   // ดึงข้อมูลจาก request
   const { username, password, title, image, phone, fname, lname} =

@@ -5,6 +5,7 @@ module.exports = (app) => {
   const upload = multer()
 
   const {
+    checkusername,
     create,
     findAll,
     findOne,
@@ -16,11 +17,13 @@ module.exports = (app) => {
     login,
   } = require('../controllers/customer.controller')
 
+
   router.post('/', create)
 
   router.get('/', verify, findAll)
-
+  router.get('/checkuser/:username', checkusername)
   router.get('/:id', verify, findOne)
+
 
   router.put('/p1/:id', updateProfile1)
   router.put('/p2/:id', updateProfile2)

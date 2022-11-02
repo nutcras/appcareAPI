@@ -17,7 +17,7 @@ module.exports = (app) => {
     updateprofile6,
     updateprofile7,
     updateWorkRate,
-    updateAccept,
+    checkusername,
     deleteOne,
     login,
     fineAvgRate,
@@ -28,7 +28,7 @@ module.exports = (app) => {
   router.get('/', verify, fineMentorCanWork)
   router.get('/unconfirm/', verify, unconfirm)
   router.get('/findAvg', fineAvgRate)
-
+  router.get('/checkuser/:username', checkusername)
   router.get('/:id', verify, findOne)
   router.get('/datework/:id', verify, finddatework)
 

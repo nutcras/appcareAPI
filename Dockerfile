@@ -7,4 +7,4 @@ RUN npm ci
 FROM  gcr.io/distroless/nodejs:16
 COPY --from=build /app /app
 WORKDIR /app
-CMD ["npm" , "start"]
+CMD ["node" , "index.js"]

@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM gcr.io/distroless/nodejs:16
 WORKDIR /app
 ADD . /app
 ENV NODE_ENV production

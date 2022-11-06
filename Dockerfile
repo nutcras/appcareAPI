@@ -1,10 +1,10 @@
-FROM node:16-alpine AS build
+FROM node:16-bullseye-slim AS build
 WORKDIR /app
 ADD . /app
 ENV NODE_ENV production
-RUN npm ci 
+RUN npm ci
 
 FROM  gcr.io/distroless/nodejs:16
 COPY --from=build /app /app
 WORKDIR /app
-CMD ["node" , "index.js"]
+CMD ["index.js"]
